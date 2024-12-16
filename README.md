@@ -25,26 +25,27 @@ You need to run these under a environment that has inquirer, tqdm, and colorama 
 ![node](node.png)
 
 ## NoobAI Prompt (Main Node)
-`Model`: Lets you select the model you want to use. Use only NoobAI or Illustrious models.
-`Stop at Clip Layer`: Stops the generation at the clip layer. Most models use -2.
-`Resolution`: The resolution of the generated image. The higher the resolution, the better the quality of the image.
-`Batch Size`: The number of images generated per prompt. The higher the batch size, the more images generated.
-`Character`: The character you want to generate based on Danbooru tags.
-`Artist`: The artist you want to generate based on Danbooru tags.
-`E621 Character`: The character you want to generate based on E621 tags.
-`E621 Artist`: The artist you want to generate based on E621 tags.
-`Girl Chraracter`: Will insert [x] girl/s into the prompt.
-`Boy Character`: Will insert [x] boy/s into the prompt.
-`Mature Character`: Will change tags girl/s // boys/s to to Woman/Man...etc (Experimental, not sure this matters).
-`Year`: The year you want to generate based on Danbooru tags.
-`Shot Type`: The type of framing you want
-`Prompt`: Open prompt, {prefix} {character} {action} {artist} {shot type} {prompt} {suffix}
-`Negative Prompt`: Template Negative Prompt based on the article [F****** BEST NEGATIVE PROMPT FOR NOOBAI-XL](https://civitai.com/articles/9695/f-best-negative-prompt-for-noobai-xl)
-`Format Tag`: Format Character and Artist tags to be used in the prompt.
-`SFW`: Will add SFW tag to the prompt.
-`Quality Boost`: Will add `"masterpiece, best quality, good quality, very aesthetic, absurdres, newest, very awa, highres,"` to the prompt.
-`Prefix QB`: Will prefix the Quality Boost tag to the prompt.
-`Cinematic`: Will add `"(scenery, volumetric lighting)"` to the prompt.
+* `Model`: Lets you select the model you want to use. Use only NoobAI or Illustrious models.
+* `Stop at Clip Layer`: Stops the generation at the clip layer. Most models use -2.
+* `Resolution`: The resolution of the generated image. The higher the resolution, the better the quality of the image.
+* `Batch Size`: The number of images generated per prompt. The higher the batch size, the more images generated.
+* `Character`: The character you want to generate based on Danbooru tags.
+* `Artist`: The artist you want to generate based on Danbooru tags.
+* `E621 Character`: The character you want to generate based on E621 tags.
+* `E621 Artist`: The artist you want to generate based on E621 tags.
+* `Girl Chraracter`: Will insert [x] girl/s into the prompt.
+* `Boy Character`: Will insert [x] boy/s into the prompt.
+* `Mature Character`: Will change tags girl/s // boys/s to to Woman/Man...etc (Experimental, not sure this matters).
+* `Year`: The year you want to generate based on Danbooru tags.
+* `Shot Type`: The type of framing you want
+* `Prompt`: Open prompt, {prefix} {character} {action} {artist} {shot type} {prompt} {suffix}
+* `Negative Prompt`: Template Negative Prompt based on the article [F****** BEST NEGATIVE PROMPT FOR NOOBAI-XL](https://civitai.com/articles/9695/f-best-negative-prompt-for-noobai-xl)
+* `Format Tag`: Format Character and Artist tags to be used in the prompt.
+* `SFW`: Will add SFW tag to the prompt.
+* `Quality Boost`: Will add `"masterpiece, best quality, good quality, very aesthetic, absurdres, newest, very awa, highres,"` to the prompt.
+* `Prefix QB`: Will prefix the Quality Boost tag to the prompt.
+* `Cinematic`: Will add `"(scenery, volumetric lighting)"` to the prompt.
+* 
 ## Usage
 
 Character/Artist (Overload Nodes)

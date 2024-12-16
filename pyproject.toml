@@ -4,14 +4,15 @@ name = "comfyui-easy-noobai"
 authors = [
     {name = "Regi E",email = "regi@bynine.io"}
 ]
-description = "Simple node to assist with prompt generation for NOOBAI XL models"
-version = "1.0.0"
+description = "Simple node to assist with prompt generation for NOOBAI XL / Illustrious models"
+version = "1.0.1"
 
 license = { file = "LICENSE" }
 dependencies  = [
     "psutil",
     "colorama",
-    "tqdm"
+    "tqdm",
+    "inquirer"
 ]
 
 [project.urls]
