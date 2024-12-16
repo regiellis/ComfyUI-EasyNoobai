@@ -1,0 +1,706 @@
+{
+  "last_node_id": 33,
+  "last_link_id": 93,
+  "nodes": [
+    {
+      "id": 3,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -990,
+        120
+      ],
+      "size": [
+        490,
+        320
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 90
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 86,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "1 girl,\n(frieren :1.2),white hair,(foreshortening ),[[artist:wlop]],[ningen_mame],[ciloranko],[sho_(sho_lwlw)],dynamic angle,depth of field,high contrast,colorful,detailed light,light leaks,beautiful detailed glow,best shadow,shiny skin,cinematic lighting,ray tracing,female focus,\n1girl,ahoge,beard,black pantyhose,blue hair,book,boots,brown footwear,cape,capelet,closed eyes,dappled sunlight,earrings,elf,facial hair,gem,glasses,gold trim,grass,green hair,hair intakes,hair slicked back,hand up,head wreath,jewelry,long hair,long sleeves,lying,on ground,on side,open book,orange hair,outdoors,pantyhose,parted bangs,parted lips,photo (object),pointy ears,red gemstone,ring,shade,shirt,short eyebrows,short hair,skirt,sleeping,solo,sunlight,tearing up,twintails,white cape,white capelet,white hair,white shirt,white skirt,\n(((masterpiece,best quality,newest,absurdres,highres))),"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -980,
+        180
+      ],
+      "size": [
+        870,
+        380
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 91
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 93,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "pov,boy,nsfw,{{{{{pubic hair}}}}},wolf,{animal},cake,elf ears,weapon,card,screen,bird,chibi,doll,milk,lowres,{bad},error,fewer,extra,missing,worst quality,jpeg artifacts,bad quality,watermark,unfinished,displeasing,chromatic aberration,signature,extra digits,artistic error,username,scan,[abstract],very displeasing,displeasing,lowres,lowres,bad,text,error,missing,extra,fewer,cropped,jpeg artifacts,worst quality,bad quality,watermark,displeasing,unfinished,chromatic aberration,scan,scan artifacts,photo,deformed,realism,disfigured,lowres,bad anatomy,bad hands,text,error,missing fingers,extra digit,fewer digits,cropped,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username,"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "KSampler",
+      "pos": [
+        60,
+        170
+      ],
+      "size": [
+        315,
+        474
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 87
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 5
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 6
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 89
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        426602953052882,
+        "randomize",
+        30,
+        3,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 7,
+      "type": "VAEDecode",
+      "pos": [
+        170,
+        70
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 9
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 88
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            22
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 15,
+      "type": "PreviewImage",
+      "pos": [
+        -980,
+        240
+      ],
+      "size": [
+        870,
+        920
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 22
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 24,
+      "type": "NoobaiCharacters",
+      "pos": [
+        -1020,
+        -160
+      ],
+      "size": [
+        315,
+        226
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "prefix",
+          "type": "STRING",
+          "link": 92,
+          "widget": {
+            "name": "prefix"
+          },
+          "shape": 7
+        },
+        {
+          "name": "suffix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "suffix"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CHARACTER PROMPT",
+          "type": "STRING",
+          "links": [
+            65
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "NoobaiCharacters"
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        false,
+        false,
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 25,
+      "type": "NoobaiArtists",
+      "pos": [
+        -630,
+        -160
+      ],
+      "size": [
+        315,
+        250
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "prefix",
+          "type": "STRING",
+          "link": 65,
+          "widget": {
+            "name": "prefix"
+          },
+          "shape": 7
+        },
+        {
+          "name": "suffix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "suffix"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "ARTIST PROMPT",
+          "type": "STRING",
+          "links": [
+            67
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "NoobaiArtists"
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        false,
+        false,
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 26,
+      "type": "NoobaiE621Characters",
+      "pos": [
+        -280,
+        -160
+      ],
+      "size": [
+        315,
+        202
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "prefix",
+          "type": "STRING",
+          "link": 67,
+          "widget": {
+            "name": "prefix"
+          },
+          "shape": 7
+        },
+        {
+          "name": "suffix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "suffix"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "E621 CHARACTER TAGS",
+          "type": "STRING",
+          "links": [
+            69
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "NoobaiE621Characters"
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "-",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 27,
+      "type": "NoobaiE621Artists",
+      "pos": [
+        70,
+        -160
+      ],
+      "size": [
+        315,
+        178
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "prefix",
+          "type": "STRING",
+          "link": 69,
+          "widget": {
+            "name": "prefix"
+          },
+          "shape": 7
+        },
+        {
+          "name": "suffix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "suffix"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "E621 ARTIST TAGS",
+          "type": "STRING",
+          "links": [
+            86
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "NoobaiE621Artists"
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 33,
+      "type": "EasyNoobai",
+      "pos": [
+        -1790,
+        -130
+      ],
+      "size": [
+        670,
+        980
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "prefix"
+          },
+          "shape": 7
+        },
+        {
+          "name": "suffix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "suffix"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            87
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            88
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            90,
+            91
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            89
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            92
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "NEGATIVE",
+          "type": "STRING",
+          "links": [
+            93
+          ],
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EasyNoobai"
+      },
+      "widgets_values": [
+        "Flux.1 D/flux1-dev-fp8.safetensors",
+        -2,
+        "2:3 - (1024x1536)",
+        1,
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        false,
+        "-",
+        "-",
+        "leaning against a wall in a alley, glitch hair, iridescent hair, holding gun, profile, backlighting,  scenery of a ruin city, patrol team in the background",
+        "Basic",
+        true,
+        false,
+        false,
+        false,
+        false,
+        "",
+        "",
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      5,
+      3,
+      0,
+      5,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      6,
+      4,
+      0,
+      5,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      9,
+      5,
+      0,
+      7,
+      0,
+      "LATENT"
+    ],
+    [
+      22,
+      7,
+      0,
+      15,
+      0,
+      "IMAGE"
+    ],
+    [
+      65,
+      24,
+      0,
+      25,
+      0,
+      "STRING"
+    ],
+    [
+      67,
+      25,
+      0,
+      26,
+      0,
+      "STRING"
+    ],
+    [
+      69,
+      26,
+      0,
+      27,
+      0,
+      "STRING"
+    ],
+    [
+      86,
+      27,
+      0,
+      3,
+      1,
+      "STRING"
+    ],
+    [
+      87,
+      33,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      88,
+      33,
+      1,
+      7,
+      1,
+      "VAE"
+    ],
+    [
+      89,
+      33,
+      3,
+      5,
+      3,
+      "LATENT"
+    ],
+    [
+      90,
+      33,
+      2,
+      3,
+      0,
+      "CLIP"
+    ],
+    [
+      91,
+      33,
+      2,
+      4,
+      0,
+      "CLIP"
+    ],
+    [
+      92,
+      33,
+      4,
+      24,
+      0,
+      "STRING"
+    ],
+    [
+      93,
+      33,
+      5,
+      4,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7513148009015783,
+      "offset": [
+        1828.9517606752547,
+        512.1635217170966
+      ]
+    },
+    "ue_links": []
+  },
+  "version": 0.4
+}

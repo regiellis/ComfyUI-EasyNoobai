@@ -1,0 +1,23 @@
+# pyproject.toml
+[project]
+name = "comfyui-easy-noobai"
+authors = [
+    {name = "Regi E",email = "regi@bynine.io"}
+]
+description = "Simple node to assist with prompt generation for NOOBAI XL models"
+version = "1.0.0"
+
+license = { file = "LICENSE" }
+dependencies  = [
+    "psutil",
+    "colorama",
+    "tqdm"
+]
+
+[project.urls]
+Repository = "https://github.com/regiellis/ComfyUI-EasyNoobai"
+
+[tool.comfy]
+PublisherId = "itsjustregi"
+DisplayName = "Easy Noobai"
+Icon = "" 
