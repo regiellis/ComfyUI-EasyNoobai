@@ -39,8 +39,8 @@ class EasyNoobai:
                           "very displeasing, displeasing, adversarial noise, what, off-topic, text, artist name, signature, username, logo",
                           "watermark, copyright name, copyright symbol, low quality, lowres, jpeg artifacts, compression artifacts, blurry",
                           "artistic error, bad anatomy, bad hands, bad feet, disfigured, deformed, extra digits, fewer digits, missing fingers",
-                          "censored, unfinished, bad proportions, bad perspective, monochrome, sketch, concept art, unclear, 2koma, 4koma",
-                          "letterboxed, speech bubble, cropped, [doesnotexist],"
+                          "censored, unfinished, bad proportions, bad perspective, monochrome, sketch, concept art, unclear, 2koma, 4koma,",
+                          "letterboxed, speech bubble, cropped"
     ])
     NEG_BOOST = ", ".join([
           "ai-generated, ai-assisted, stable diffusion, nai diffusion, worst quality, worst aesthetic, bad quality, normal quality, average quality, oldest, old, early, very displeasing",
@@ -49,8 +49,10 @@ class EasyNoobai:
           "fewer digits, missing fingers, censored, bar censor, mosaic censoring, missing, extra, fewer, bad, hyper, error, ugly, worst, tagme, unfinished, bad proportions, bad perspective, aliasing",
           "simple background, asymmetrical, monochrome, sketch, concept art, flat color, flat colors, simple shading, jaggy lines, traditional media \(artwork\), microsoft paint \(artwork\), ms paint \(medium\)",
           "unclear, photo, icon, multiple views, sequence, comic, 2koma, 4koma, multiple images, turnaround, collage, panel skew, letterboxed, framed, border, speech bubble, 3d, lossy-lossless, scan artifacts",
-          "out of frame, cropped, [abstract], [doesnotexist],"
+          "out of frame, cropped,"
     ])
+    
+    NEG_ADDITIONAL = ", ".join([",(abstract:0.91), (doesnotexist:0.91)"])
     
     NEGATIVES : Dict[str, str] = {
         "Basic": NEG,
@@ -61,7 +63,7 @@ class EasyNoobai:
     QUAILTY_BOOST = "masterpiece, best quality, good quality, very aesthetic, absurdres, newest, very awa, highres,"
     CINEMATIC = "(scenery, volumetric lighting, dof, depth of field)"
     
-    CENSORSHIP = " ".join(
+    CENSORSHIP = ", ".join(
         [
             "bar censor, censor, censor mosaic, censored, filter abuse",
             "heavily pixelated, instagram filter, mosaic censoring, over filter",
@@ -252,6 +254,9 @@ class EasyNoobai:
         kwargs["Negative Prompt"] and negative_elements.append(
             self.NEGATIVES[kwargs["Negative Prompt"]]
         )
+        
+        if kwargs["Character"] is not "-" or kwargs["E621 Character"] is not "-":
+            negative_elements.append(self.NEG_ADDITIONAL)
             
         if kwargs.get("Mature Characters", False):
             replacements = {
