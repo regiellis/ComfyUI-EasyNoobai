@@ -1,7 +1,10 @@
 # ComfyUI EasyNoobAI
 
 > [!WARNING]
-> All of the list used in this node are very large and can take a long time to generate. Please be patient when using this node. I am currently limited this to about 
+> All of the list used in this node are very large and can take a long time to generate. Please be patient when using this node. I am currently limited this to about 0.025% of the total list size which is equal to about 5000-6000 entries
+> If dont see your favor character or artist, you can recompile the list with the script I have provided in the assets folder. You can create a new characters list by running `py noobai-list-convert.py -i danbooru_character_webui.csv -o characters.py -n CHARACTERS -t 0.05 -d` as
+> and example. This will give you a file called `characters.py` which will need to be moved to the src folder...and comfyui restarted. You will need to use the flag `-n [NAME]` on all the files and you will need to match naming conventions that are being looked for in the
+> scripts. for `-n CHARACTERS -o characters.py` or `-n ARTISTS -o artists.py` or `-n E621_CHARACTERS -p e62_characters.py`. you should back up all files before replacing them. Know that you will need to `stash` your changes before you can pull and update for the node
 
 
 > [!NOTE]
