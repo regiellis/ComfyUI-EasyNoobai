@@ -1,7 +1,7 @@
 import os
 from .src import (
-    EasyNoobai, 
-    NoobaiCharacters, 
+    EasyNoobai,
+    NoobaiCharacters,
     NoobaiArtists,
     NoobaiE621Characters,
     NoobaiE621Artists,
@@ -15,7 +15,6 @@ NODE_CLASS_MAPPINGS = {
     "NoobaiArtists": NoobaiArtists,
     "NoobaiE621Characters": NoobaiE621Characters,
     "NoobaiE621Artists": NoobaiE621Artists,
-    
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
