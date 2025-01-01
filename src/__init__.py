@@ -346,53 +346,53 @@ class EasyNoobai:
         prompt_elements, negative_elements = [], []
         ca_weight = (
             EasyNoobai.WEIGHTS[kwargs.get("Character Weight")]
-            if kwargs.get("Character Weight") is not "-"
+            if kwargs.get("Character Weight") != "-"
             else ""
         )
         aa_weight = (
             EasyNoobai.WEIGHTS[kwargs.get("Artist Weight")]
-            if kwargs.get("Artist Weight") is not "-"
+            if kwargs.get("Artist Weight") != "-"
             else ""
         )
 
         resolution = self.parse_resolution(kwargs["Resolution"])
-        kwargs["Boy Characters"] is not "-" and prompt_elements.append(
+        kwargs["Boy Characters"] != "-" and prompt_elements.append(
             f"{kwargs['Boy Characters']},"
         )
-        kwargs["Girl Characters"] is not "-" and prompt_elements.append(
+        kwargs["Girl Characters"] != "-" and prompt_elements.append(
             f"{kwargs['Girl Characters']},"
         )
 
         # Add formatted tags to prompt elements
         if kwargs["Format Tag"]:
-            kwargs.get("Character") is not "-" and prompt_elements.append(
+            kwargs.get("Character") != "-" and prompt_elements.append(
                 f"\({self.format_tag(kwargs['Character'])}{ca_weight}\),"
             )
-            kwargs.get("E621 Character") is not "-" and prompt_elements.append(
+            kwargs.get("E621 Character") != "-" and prompt_elements.append(
                 f"\({self.format_tag(kwargs['E621 Character'])}{ca_weight}\),"
             )
-            kwargs.get("Artist") is not "-" and prompt_elements.append(
+            kwargs.get("Artist") != "-" and prompt_elements.append(
                 f"artist:{self.format_tag(kwargs['Artist'])}{aa_weight},"
             )
-            kwargs.get("E621 Artist") is not "-" and prompt_elements.append(
+            kwargs.get("E621 Artist") != "-" and prompt_elements.append(
                 f"artist:{self.format_tag(kwargs['E621 Artist'])}{aa_weight},"
             )
         else:
-            kwargs.get("Character") is not "-" and prompt_elements.append(
+            kwargs.get("Character") != "-" and prompt_elements.append(
                 f"{kwargs['Character']}{ca_weight},"
             )
-            kwargs.get("E621 Character") is not "-" and prompt_elements.append(
+            kwargs.get("E621 Character") != "-" and prompt_elements.append(
                 f"{kwargs['E621 Character']}{ca_weight},"
             )
-            kwargs.get("Artist") is not "-" and prompt_elements.append(
+            kwargs.get("Artist") != "-" and prompt_elements.append(
                 f"{self.format_tag(kwargs['Artist'])}{aa_weight},"
             )
-            kwargs.get("E621 Artist") is not "-" and prompt_elements.append(
+            kwargs.get("E621 Artist") != "-" and prompt_elements.append(
                 f"{self.format_tag(kwargs['E621 Artist'])}{aa_weight},"
             )
 
         kwargs["SFW"] and prompt_elements.append("(sfw:1.2),")
-        kwargs["Year"] is not "-" and prompt_elements.append(f"{kwargs['Year']},")
+        kwargs["Year"] != "-" and prompt_elements.append(f"{kwargs['Year']},")
         
         shots = [EasyNoobai.SHOT_TYPES.get(kwargs.get("Shot Type", "-")), 
                  EasyNoobai.FRAMING.get(kwargs.get("Framing", "-")), 
@@ -427,7 +427,7 @@ class EasyNoobai:
             self.NEGATIVES[kwargs["Negative Prompt"]]
         )
 
-        if kwargs["Character"] is not "-" or kwargs["E621 Character"] is not "-":
+        if kwargs["Character"] != "-" or kwargs["E621 Character"] != "-":
             negative_elements.append(self.NEG_ADDITIONAL)
 
         if kwargs.get("Mature Characters", False):
