@@ -423,7 +423,7 @@ class EasyNoobai:
 
         final_prompt = " ".join(prompt_elements).lower()
 
-        kwargs["Negative Prompt"] and negative_elements.append(
+        kwargs["Negative Prompt"] != "-" and negative_elements.append(
             self.NEGATIVES[kwargs["Negative Prompt"]]
         )
 
