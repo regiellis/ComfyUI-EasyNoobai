@@ -1,0 +1,961 @@
+{
+  "id": "26866a03-8266-4219-a681-a53d059a04d0",
+  "revision": 0,
+  "last_node_id": 31,
+  "last_link_id": 66,
+  "nodes": [
+    {
+      "id": 9,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2120,
+        1030
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 49
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 47
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            9,
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "1girl, \nmasterpiece, best quality, amazing quality, very aesthetic, absurdres, newest, scenery, (volumetric lighting),"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2120,
+        1280
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 53
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 52
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            10,
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "lowres, (worst quality, bad quality:1.2), bad anatomy, sketch, jpeg artifacts, signature, watermark, old, oldest, censored, bar censor, (pregnant), chibi, loli, simple background,"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 11,
+      "type": "KSampler",
+      "pos": [
+        2560,
+        1030
+      ],
+      "size": [
+        350,
+        770
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 48
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 10
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 54
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        143226659864104,
+        "randomize",
+        30,
+        4,
+        "euler_ancestral",
+        "sgm_uniform",
+        1
+      ],
+      "color": "#2a363b",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 12,
+      "type": "VAEDecode",
+      "pos": [
+        2560,
+        1850
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 12
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 55
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "color": "#2a363b",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 14,
+      "type": "UpscaleModelLoader",
+      "pos": [
+        2950,
+        920
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 0,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "slot_index": 0,
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "UpscaleModelLoader"
+      },
+      "widgets_values": [
+        "4x-UltraSharp.pth"
+      ],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 17,
+      "type": "UltimateSDUpscale",
+      "pos": [
+        2950,
+        1030
+      ],
+      "size": [
+        370,
+        1110
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 11,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            26,
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_ultimatesdupscale",
+        "ver": "778a475dde8116a2066fe07f6c9ca15554e0b5be",
+        "Node name for S&R": "UltimateSDUpscale"
+      },
+      "widgets_values": [
+        2,
+        646816118170016,
+        "randomize",
+        10,
+        5.5,
+        "dpmpp_2m",
+        "sgm_uniform",
+        0.2,
+        "Linear",
+        512,
+        512,
+        32,
+        128,
+        "None",
+        1,
+        64,
+        8,
+        16,
+        true,
+        false
+      ],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 19,
+      "type": "PreviewImage",
+      "pos": [
+        -670,
+        750
+      ],
+      "size": [
+        740,
+        1110
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 26
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 20,
+      "type": "SaveImage",
+      "pos": [
+        4140,
+        1030
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 27
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 22,
+      "type": "ShowText|pysssss",
+      "pos": [
+        140,
+        1980
+      ],
+      "size": [
+        690,
+        160
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 66
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "shape": 6,
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            47
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-custom-scripts",
+        "ver": "9f7b3215e6af317603056a9a1666bf6e83e28835",
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "(masterpiece, best quality, good quality, very aesthetic, absurdres, short pixie cut, gradient blonde hair, newest, hoodie, highres, 1 girl solo, (straight-on:1.15), cropped torso, white background,1.6 1.6)"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 23,
+      "type": "ShowText|pysssss",
+      "pos": [
+        140,
+        2200
+      ],
+      "size": [
+        680,
+        110
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 51
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            52
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-custom-scripts",
+        "ver": "9f7b3215e6af317603056a9a1666bf6e83e28835",
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "ai-generated, worst quality, worst aesthetic, bad quality, normal quality, average quality, oldest, old, early, very displeasing, displeasing, adversarial noise, what, off-topic, text, artist name, signature, username, logo, watermark, copyright name, copyright symbol, low quality, lowres, jpeg artifacts, compression artifacts, blurry, artistic error, bad anatomy, bad hands, bad feet, disfigured, deformed, extra digits, fewer digits, missing fingers, censored, unfinished, bad proportions, bad perspective, monochrome, sketch, concept art, unclear, 2koma, 4koma,, letterboxed, speech bubble, cropped"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 24,
+      "type": "NoobaiCharacters",
+      "pos": [
+        2130,
+        1540
+      ],
+      "size": [
+        380,
+        250
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CHARACTER PROMPT",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "6c084008d843c81286698a248f7d7ef874b4bac4",
+        "Node name for S&R": "NoobaiCharacters"
+      },
+      "widgets_values": [
+        "konpaku_youmu_(ghost)",
+        "miki_sayaka",
+        "yakumo_ran",
+        "sensei_(blue_archive)",
+        "chen",
+        true,
+        false
+      ]
+    },
+    {
+      "id": 25,
+      "type": "EasyNoobai",
+      "pos": [
+        140,
+        750
+      ],
+      "size": [
+        700,
+        1170
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            48
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            55
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            49,
+            53
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            54
+          ]
+        },
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            63
+          ]
+        },
+        {
+          "name": "NEGATIVE",
+          "type": "STRING",
+          "links": [
+            51
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "6c084008d843c81286698a248f7d7ef874b4bac4",
+        "Node name for S&R": "EasyNoobai"
+      },
+      "widgets_values": [
+        "Illustrious/hassakuXLIllustrious_v21fix.safetensors",
+        -2,
+        "2:3 - (1024x1536)",
+        1,
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "1 girl solo",
+        "-",
+        false,
+        "-",
+        "Straight-On",
+        "Cropped Torso",
+        "-",
+        "-",
+        "white background",
+        "Extra",
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 29,
+      "type": "NoobaiHairstyles",
+      "pos": [
+        890,
+        1020
+      ],
+      "size": [
+        430.8000183105469,
+        198
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 63
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            65
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "54ca08b137dfa8d62de55649b3af67af7dcf4d73",
+        "Node name for S&R": "NoobaiHairstyles"
+      },
+      "widgets_values": [
+        "-",
+        "short pixie cut",
+        "-",
+        "gradient blonde hair",
+        true,
+        false
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 31,
+      "type": "NoobaiClothing",
+      "pos": [
+        900,
+        1280
+      ],
+      "size": [
+        420,
+        210
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 65
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            66
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "54ca08b137dfa8d62de55649b3af67af7dcf4d73",
+        "Node name for S&R": "NoobaiClothing"
+      },
+      "widgets_values": [
+        "hoodie",
+        "-",
+        "-",
+        true,
+        false
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      9,
+      9,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      10,
+      0,
+      11,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      17,
+      14,
+      0,
+      17,
+      5,
+      "UPSCALE_MODEL"
+    ],
+    [
+      18,
+      12,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      9,
+      0,
+      17,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      21,
+      10,
+      0,
+      17,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      26,
+      17,
+      0,
+      19,
+      0,
+      "IMAGE"
+    ],
+    [
+      27,
+      17,
+      0,
+      20,
+      0,
+      "IMAGE"
+    ],
+    [
+      47,
+      22,
+      0,
+      9,
+      1,
+      "STRING"
+    ],
+    [
+      48,
+      25,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      49,
+      25,
+      2,
+      9,
+      0,
+      "CLIP"
+    ],
+    [
+      51,
+      25,
+      5,
+      23,
+      0,
+      "STRING"
+    ],
+    [
+      52,
+      23,
+      0,
+      10,
+      1,
+      "STRING"
+    ],
+    [
+      53,
+      25,
+      2,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      54,
+      25,
+      3,
+      11,
+      3,
+      "LATENT"
+    ],
+    [
+      55,
+      25,
+      1,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      63,
+      25,
+      4,
+      29,
+      0,
+      "STRING"
+    ],
+    [
+      65,
+      29,
+      0,
+      31,
+      0,
+      "STRING"
+    ],
+    [
+      66,
+      31,
+      0,
+      22,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9090909090909097,
+      "offset": [
+        667.4523501354969,
+        -634.9312474844369
+      ]
+    },
+    "frontendVersion": "1.17.0",
+    "ue_links": [],
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

@@ -13,13 +13,14 @@
 > but I have tried to make it as user-friendly as possible. If you have any suggestions or improvements, please feel free to reach out to me on the ComfyUI Discord server.
 
 
-EasyNoobAI - Resources for implementation of EasyPony prompt sturcture
+EasyNoobAI - Resources for implementation of EasyNoobAI prompt sturcture
 - [prompting-for-score-or-source-or-rating-or-and-an-overview-of-prompting-syntax](https://civitai.com/articles/8962)
 - [NoobAI-XL - Epsilon-pred 0.75 - Visual Tag Reference](https://civitai.com/articles/8510/noobai-xl-epsilon-pred-075-visual-tag-reference)
 - [F****** BEST NEGATIVE PROMPT FOR NOOBAI-XL](https://civitai.com/articles/9695/f-best-negative-prompt-for-noobai-xl)
+- [Illustrious XL / NoobAI XL Hairstyles](https://civitai.com/articles/8804/illustrious-xl-noobai-xl-hairstyles)
 
 ## TOOLS
-The lists for the characters and artists are based on the tags from Danbooru and E621. Are massive, so I am currently limiting it to about 0.12% of the top tags. This is roughly about 5000-6000 entries for each list. If you find it to be too large or small, you can use the `noobai-list-convert.py` in the assets folder to convert the list to a smaller or larger list. This is a CLI and needs to be in the same folder as the csv files.
+The lists for the characters and artists are based on the tags from Danbooru and E621. Are massive, so I am currently limiting it to about 0.25% of the top tags. This is roughly about 5000-6000 entries for each list. If you find it to be too large or small, you can use the `noobai-list-convert.py` in the assets folder to convert the list to a smaller or larger list. This is a CLI and needs to be in the same folder as the csv files.
 You need to run these under a environment that has inquirer, tqdm, and colorama installed. You can install these by running `pip install inquirer tqdm colorama` in the terminal under a python environment.
 
 
@@ -55,6 +56,9 @@ Character/Artist (Overload Nodes)
 
 These nodes are used to add multiple characters and artists to the prompt based on the tags from Danbooru and E621. The tags are separated by a comma.
 You are limited to 5 characters and 5 artists per prompt, but you can always add more by chaining the nodes.
+
+Hairstyles and Clothing
+These nodes are used to ... well added known hairstyles and clothing that have been tested by other AI Artist.
 
 
 ### Install from ComfyUI Manager
