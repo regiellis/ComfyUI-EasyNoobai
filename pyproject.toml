@@ -5,7 +5,7 @@ authors = [
     {name = "Regi E",email = "regi@bynine.io"}
 ]
 description = "Simple node to assist with prompt generation for NOOBAI XL / Illustrious models"
-version = "1.0.5"
+version = "1.0.6"
 
 license = { file = "LICENSE" }
 dependencies  = [

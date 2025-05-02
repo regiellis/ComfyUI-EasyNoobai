@@ -17,7 +17,7 @@ from .e621_artists import E621_ARTISTS
 from .e621_characters import E621_CHARACTERS
 
 """
-EasyNoobai - Resources for implementation of EasyPony prompt sturcture
+EasyNoobai - Resources for implementation of EasyNoobai prompt sturcture
 - https://civitai.com/articles/8962
 
 """
@@ -98,7 +98,7 @@ class EasyNoobai:
         "Straight-On": "(straight-on:1.15)",
         "Three Quarter View": "(three quarter view:1.15)",
     }
-    
+
     FRAMING: Dict[str, str] = {
         "Portrait": "portrait",
         "Profile": "profile",
@@ -118,9 +118,9 @@ class EasyNoobai:
         "Close-up": "close-up",
         "Cut-in": "cut-in",
         "Split crop": "split crop",
-        "Multiple Views": "multiple views"
+        "Multiple Views": "multiple views",
     }
-    
+
     PERSPECTIVE: Dict[str, str] = {
         "Atmospheric Perspective": "atmospheric perspective",
         "Fisheye": "fisheye",
@@ -129,7 +129,7 @@ class EasyNoobai:
         "Vanishing Point": "vanishing point",
         "Variations": "variations",
     }
-    
+
     FOCUS: Dict[str, str] = {
         "Animal Focus": "(animal focus:1.4)",
         "Armpit Focus": "(armpit focus:1.4)",
@@ -157,42 +157,157 @@ class EasyNoobai:
         "Weapon Focus": "(weapon focus:1.4)",
         "Wind Chime Focus": "(wind chime focus:1.4)",
     }
-    
+
     # Based on Civitai Article https://civitai.com/articles/8804/illustrious-xl-noobai-xl-hairstyles
     # by https://civitai.com/user/lizardon1024
     HAIRSTYLE: Dict[str, Dict[str, str]] = {
-        "Length and Volume": ["very short hair", "short hair", "medium hair", "long hair", "very long hair", "absurdly long hair", "big hair", "bald girl"],
+        "Length and Volume": [
+            "very short hair",
+            "short hair",
+            "medium hair",
+            "long hair",
+            "very long hair",
+            "absurdly long hair",
+            "big hair",
+            "bald girl",
+        ],
         "Haircuts": {
-            "Short": ["bob cut", "inverted bob", "bowl cut", "buzz cut", "pixie cut", "undercut"],
+            "Short": [
+                "bob cut",
+                "inverted bob",
+                "bowl cut",
+                "buzz cut",
+                "pixie cut",
+                "undercut",
+            ],
             "Medium": ["flipped hair"],
-            "Long": ["hime cut"]
+            "Long": ["hime cut"],
         },
         "Hairstyles": {
-            "Tied": ["bow-shaped hair", "flower-shaped hair", "hair updo", "one side up", "two side up", "low-tide long hair", "multi-tied hair", "twintails", "low twintails", "short twintails", "twisted hair"],
-            "Braids": ["front braid", "side braid", "french braid", "single braid", "twin braids", "half up braid", "low-braided long hair", "cornrows", "dreadlocks"],
-            "Hair buns": ["braided bun", "single hair bun", "double bun", "cone hair bun", "doughnut hair bun"],
+            "Tied": [
+                "bow-shaped hair",
+                "flower-shaped hair",
+                "hair updo",
+                "one side up",
+                "two side up",
+                "low-tide long hair",
+                "multi-tied hair",
+                "twintails",
+                "low twintails",
+                "short twintails",
+                "twisted hair",
+            ],
+            "Braids": [
+                "front braid",
+                "side braid",
+                "french braid",
+                "single braid",
+                "twin braids",
+                "half up braid",
+                "low-braided long hair",
+                "cornrows",
+                "dreadlocks",
+            ],
+            "Hair buns": [
+                "braided bun",
+                "single hair bun",
+                "double bun",
+                "cone hair bun",
+                "doughnut hair bun",
+            ],
             "Hair rings": ["hair rings", "single hair ring"],
-            "Ponytails": ["ponytails", "folded ponytail", "front ponytail", "high ponytail", "short pontail", "side ponytail", "topknot"],
+            "Ponytails": [
+                "ponytails",
+                "folded ponytail",
+                "front ponytail",
+                "high ponytail",
+                "short pontail",
+                "side ponytail",
+                "topknot",
+            ],
             "Tall hair": ["afro", "beehive hairdo", "crested hair", "pompadour"],
-            "Hair texture": ["wavy hair", "straight hair", "spiked hair", "ringlets", "pointy hair", "messy hair", "hair flaps", "twin drills", "drill hair", "curly hair"],
+            "Hair texture": [
+                "wavy hair",
+                "straight hair",
+                "spiked hair",
+                "ringlets",
+                "pointy hair",
+                "messy hair",
+                "hair flaps",
+                "twin drills",
+                "drill hair",
+                "curly hair",
+            ],
         },
         "Hairstyle Front": {
-           "Bangs": ["bangs", "arched bangs", "asymmetrical bangs", "bangs pinned back", "blunt bangs", "crossed bangs", "diagonal bangs", "hair over eyes", "hair over one eye", "long bangs", "parted bangs", "curtained hair", "wispy bangs", "short bangs", "hair between eyes"],
+            "Bangs": [
+                "bangs",
+                "arched bangs",
+                "asymmetrical bangs",
+                "bangs pinned back",
+                "blunt bangs",
+                "crossed bangs",
+                "diagonal bangs",
+                "hair over eyes",
+                "hair over one eye",
+                "long bangs",
+                "parted bangs",
+                "curtained hair",
+                "wispy bangs",
+                "short bangs",
+                "hair between eyes",
+            ],
             "Hair intakes": ["hair intakes", "single hair intake"],
-            "Sidelocks": [ "sidelocks", "asymmetrical sidelocks", "drill sidelocks", "low-tied sidelocks", "single sidelocks", "widow\'s peak"]
+            "Sidelocks": [
+                "sidelocks",
+                "asymmetrical sidelocks",
+                "drill sidelocks",
+                "low-tied sidelocks",
+                "single sidelocks",
+                "widow's peak",
+            ],
         },
         "Hairstyle Top": {
-            "Top of the head": ["ahoge", "heart ahoge", "huge ahoge", "antenna hair", "heart antenna hair", "hair pulled back", "hair slicked back", "mohawk"],
+            "Top of the head": [
+                "ahoge",
+                "heart ahoge",
+                "huge ahoge",
+                "antenna hair",
+                "heart antenna hair",
+                "hair pulled back",
+                "hair slicked back",
+                "mohawk",
+            ],
         },
         "Hair Colors": {
             "Aqua Hair": ["aqua hair", "dark aqua hair", "light aqua hair"],
-            "Black Hair": ["black hair", "multicolred black hair", "gradient black hair"],
-            "Blonde Hair": ["blonde hair", "multicolred blonde hair", "gradient blonde hair"],
+            "Black Hair": [
+                "black hair",
+                "multicolred black hair",
+                "gradient black hair",
+            ],
+            "Blonde Hair": [
+                "blonde hair",
+                "multicolred blonde hair",
+                "gradient blonde hair",
+            ],
             "Blue Hair": ["blue hair", "dark blue hair", "light blue hair"],
-            "Light Blue Hair": ["light blue hair", "multicolred light blue hair", "gradient light blue hair"],
-            "Dark Blue Hair": ["dark blue hair", "multicolred dark blue hair", "gradient dark blue hair"],
+            "Light Blue Hair": [
+                "light blue hair",
+                "multicolred light blue hair",
+                "gradient light blue hair",
+            ],
+            "Dark Blue Hair": [
+                "dark blue hair",
+                "multicolred dark blue hair",
+                "gradient dark blue hair",
+            ],
             "Brown Hair": ["brown hair", "dark brown hair", "light brown hair"],
-            "Light Brown Hair": ["light brown hair", "multicolred light brown hair", "gradient light brown hair"],
+            "Light Brown Hair": [
+                "light brown hair",
+                "multicolred light brown hair",
+                "gradient light brown hair",
+            ],
             "Green Hair": ["green hair", "dark green hair", "light green hair"],
             "Grey Hair": ["grey hair", "dark grey hair", "light grey hair"],
             "Orange Hair": ["orange hair", "dark orange hair", "light orange hair"],
@@ -200,86 +315,332 @@ class EasyNoobai:
             "Purple Hair": ["purple hair", "dark purple hair", "light purple hair"],
             "Red Hair": ["red hair", "dark red hair", "light red hair"],
             "White Hair": ["white hair", "dark white hair", "light white hair"],
-            "Colored Inner Hair": ["colored inner hair", "dark colored inner hair", "light colored inner hair"],
+            "Colored Inner Hair": [
+                "colored inner hair",
+                "dark colored inner hair",
+                "light colored inner hair",
+            ],
             "Colored Tips": ["colored tips", "dark colored tips", "light colored tips"],
             "Roots": ["roots", "dark roots", "light roots"],
-            "Gradient Hair": ["gradient hair", "dark gradient hair", "light gradient hair"],
-            "Patterned Hair": ["patterned hair", "dark patterned hair", "light patterned hair"],
+            "Gradient Hair": [
+                "gradient hair",
+                "dark gradient hair",
+                "light gradient hair",
+            ],
+            "Patterned Hair": [
+                "patterned hair",
+                "dark patterned hair",
+                "light patterned hair",
+            ],
             "Rainbow Hair": ["rainbow hair", "dark rainbow hair", "light rainbow hair"],
-            "Split-Color Hair": ["split-color hair", "dark split-color hair", "light split-color hair"],
+            "Split-Color Hair": [
+                "split-color hair",
+                "dark split-color hair",
+                "light split-color hair",
+            ],
             "Spotted Hair": ["spotted hair", "dark spotted hair", "light spotted hair"],
-            "Streaked Hair": ["streaked hair", "dark streaked hair", "light streaked hair"],
+            "Streaked Hair": [
+                "streaked hair",
+                "dark streaked hair",
+                "light streaked hair",
+            ],
             "Striped Hair": ["striped hair", "dark striped hair", "light striped hair"],
-            "Raccoon Tails": ["raccoon tails", "dark raccoon tails", "light raccoon tails"],
-            "Two-Tone Hair": ["two-tone hair", "dark two-tone hair", "light two-tone hair"]
-        }
+            "Raccoon Tails": [
+                "raccoon tails",
+                "dark raccoon tails",
+                "light raccoon tails",
+            ],
+            "Two-Tone Hair": [
+                "two-tone hair",
+                "dark two-tone hair",
+                "light two-tone hair",
+            ],
+        },
     }
-    
-    CLOTHING: Dict[str, Dict[str, List[str]]] = {
+
+    CLOTHING = {
         "outfits": [
-            "tuxedo", "evening_gown", "canonicals", "cocktail_dress", "gown",
-            "wedding_dress", "maid", "miko", "school_uniform", "sailor",
-            "serafuku", "sailor_senshi_uniform", "summer_uniform", "naval_uniform", "military_uniform",
-            "business_suit", "nurse", "chef_uniform", "labcoat", "cheerleader",
-            "band_uniform", "space_suit", "leotard", "domineering", "cheongsam",
-            "china_dress", "chinese_style", "traditional_clothes", "uchikake", "off-shoulder_dress",
-            "sleeveless_kimono", "print_kimono", "japanese_clothes", "hanten_(clothes)", "hanbok",
-            "korean_clothes", "german_clothes", "gothic", "lolita", "gothic_lolita",
-            "byzantine_fashion", "tropical cloth", "indian_style", "Ao_Dai", "ainu_clothes",
-            "arabian_clothes", "egyptian_clothes", "hawaii costume", "furisode", "animal_costume",
-            "bunny_costume", "cat_costume", "dog_costume", "bear_costume", "santa_costume",
-            "hoodie", "homewear", "pajamas", "nightgown", "sleepwear",
-            "print_pajamas", "yukata", "chinese_clothes", "hanfu", "Taoist robe",
-            "halloween_costume", "kourindou_tengu_costume", "meme_attire", "casual", "loungewear",
-            "robe", "cloak", "hooded_cloak", "winter_clothes", "down jacket",
-            "santa", "harem_outfit", "shrug_clothing", "gym_uniform", "athletic_leotard",
-            "volleyball_uniform", "tennis_uniform", "baseball_uniform", "letterman_jacket", "biker_clothes",
-            "bikesuit", "wrestling_outfit", "front_zipper_swimsuit", "shell_bikini", "frilled_swimsuit",
-            "strapless_dress", "backless_dress", "halter_dress", "sundress", "sleeveless_dress",
-            "sailor_dress", "summer_dress", "pinafore_dress", "frilled_dress", "sweater_dress",
-            "armored_dress", "fur-trimmed_dress", "lace-trimmed_dress", "collared_dress", "layered_dress",
-            "pleated_dress", "taut_dress", "pencil_dress", "multicolored_dress", "striped_dress",
-            "checkered_skirt", "polka_dot_dress", "plaid_dress", "print_dress", "vertical-striped_dress",
-            "ribbed_dress", "short_jumpsuit", "multicolored_clothes", "expressive_clothes", "multicolored_bodysuit"
+            "tuxedo",
+            "evening_gown",
+            "canonicals",
+            "cocktail_dress",
+            "gown",
+            "wedding_dress",
+            "maid",
+            "miko",
+            "school_uniform",
+            "sailor",
+            "serafuku",
+            "sailor_senshi_uniform",
+            "summer_uniform",
+            "naval_uniform",
+            "military_uniform",
+            "business_suit",
+            "nurse",
+            "chef_uniform",
+            "labcoat",
+            "cheerleader",
+            "band_uniform",
+            "space_suit",
+            "leotard",
+            "domineering",
+            "cheongsam",
+            "china_dress",
+            "chinese_style",
+            "traditional_clothes",
+            "uchikake",
+            "off-shoulder_dress",
+            "sleeveless_kimono",
+            "print_kimono",
+            "japanese_clothes",
+            "hanten_(clothes)",
+            "hanbok",
+            "korean_clothes",
+            "german_clothes",
+            "gothic",
+            "lolita",
+            "gothic_lolita",
+            "byzantine_fashion",
+            "tropical cloth",
+            "indian_style",
+            "Ao_Dai",
+            "ainu_clothes",
+            "arabian_clothes",
+            "egyptian_clothes",
+            "hawaii costume",
+            "furisode",
+            "animal_costume",
+            "bunny_costume",
+            "cat_costume",
+            "dog_costume",
+            "bear_costume",
+            "santa_costume",
+            "halloween_costume",
+            "kourindou_tengu_costume",
+            "meme_attire",
+            "casual",
+            "loungewear",
+            "robe",
+            "cloak",
+            "hooded_cloak",
+            "winter_clothes",
+            "down jacket",
+            "santa",
+            "harem_outfit",
+            "shrug_clothing",
+            "gym_uniform",
+            "athletic_leotard",
+            "volleyball_uniform",
+            "tennis_uniform",
+            "baseball_uniform",
+            "letterman_jacket",
+            "biker_clothes",
+            "bikesuit",
+            "wrestling_outfit",
+            "front_zipper_swimsuit",
+            "shell_bikini",
+            "frilled_swimsuit",
+            "strapless_dress",
+            "backless_dress",
+            "halter_dress",
+            "sundress",
+            "sleeveless_dress",
+            "sailor_dress",
+            "summer_dress",
+            "pinafore_dress",
+            "frilled_dress",
+            "sweater_dress",
+            "armored_dress",
+            "fur-trimmed_dress",
+            "lace-trimmed_dress",
+            "collared_dress",
+            "layered_dress",
+            "pleated_dress",
+            "taut_dress",
+            "pencil_dress",
+            "multicolored_dress",
+            "striped_dress",
+            "polka_dot_dress",
+            "plaid_dress",
+            "print_dress",
+            "vertical-striped_dress",
+            "ribbed_dress",
+            "short_jumpsuit",
+            "multicolored_clothes",
+            "expressive_clothes",
+            "multicolored_bodysuit",
+            "jumpsuit",  # moved from "top"
         ],
         "top": [
-            "skirt", "mini_skirt", "skirt_suit", "bikini_skirt", "pleated_skirt",
-            "pencil_skirt", "bubble_skirt", "tutu", "ballgown", "beltskirt",
-            "denim_skirt", "suspender_skirt", "long_skirt", "summer_long_skirt", "hakama_skirt",
-            "high-waist_skirt", "suspender_long_skirt", "chiffon_skirt", "lace_skirt", "ribbon-trimmed_skirt",
-            "layered_skirt", "print_skirt", "multicolored_skirt", "striped_skirt", "plaid_skirt",
-            "flared_skirt", "floral_skirt", "jumpsuit", "hot_pants", "striped_shorts",
-            "suspender_shorts", "denim_shorts", "puffy_shorts", "dolphin_shorts", "dolfin_shorts",
-            "tight_pants", "track_pants", "yoga_pants", "bike_shorts", "gym_shorts",
-            "pants", "puffy_pants", "pumpkin_pants", "hakama_pants", "harem_pants",
-            "bloomers", "buruma", "jeans", "cargo_pants", "camouflage_pants",
-            "capri_pants", "chaps", "lowleg_pants", "plaid_pants", "single_pantsleg",
-            "striped_pants", "torn_jeans", "hakama", "harness", "rigging"
+            "blouse",  # moved from "bottoms"
+            "collared_shirt",
+            "dress_shirt",
+            "sailor_shirt",
+            "cropped_shirt",
+            "t-shirt",
+            "off-shoulder_shirt",
+            "shrug_clothing",
+            "gym_shirt",
+            "cardigan",
+            "criss-cross_halter",
+            "frilled_shirt",
+            "sweatshirt",
+            "hawaiian_shirt",
+            "hoodie",
+            "kappougi",
+            "plaid_shirt",
+            "polo_shirt",
+            "print_shirt",
+            "sleeveless_hoodie",
+            "sleeveless_shirt",
+            "striped_shirt",
+            "tank_top",
+            "vest",
+            "waistcoat",
+            "tied_shirt",
+            "undershirt",
+            "crop_top",
+            "camisole",
+            "midriff",
+            "oversized_shirt",
+            "borrowed_garments",
+            "blazer",
+            "overcoat",
+            "double-breasted",
+            "long_coat",
+            "winter_coat",
+            "hooded_coat",
+            "fur_coat",
+            "fur-trimmed_coat",
+            "duffel_coat",
+            "parka",
+            "cropped_jacket",
+            "track_jacket",
+            "hooded_track_jacket",
+            "military_jacket",
+            "camouflage_jacket",
+            "leather_jacket",
+            "letterman_jacket",
+            "fur_trimmed_jacket",
+            "two-tone_jacket",
+            "trench_coat",
+            "windbreaker",
+            "raincoat",
+            "hagoromo",
+            "tunic",
+            "cape",
+            "capelet",
+            "sweater",
+            "pullover_sweaters",
+            "ribbed_sweater",
+            "sweater_vest",
+            "backless_sweater",
+            "aran_sweater",
+            "beige_sweater",
+            "brown_sweater",
+            "hooded_sweater",
+            "off-shoulder_sweater",
+            "striped_sweater",
+            "puffer_jacket",
+            "short_over_long_sleeves",
+            "impossible_clothes",
+            "heart_cutout",
+            "ofuda_on_clothes",
+            "front-tie_top",
+            "jacket_on_shoulders",
         ],
         "bottoms": [
-            "blouse", "collared_shirt", "dress_shirt", "sailor_shirt", "cropped_shirt",
-            "t-shirt", "off-shoulder_shirt", "shrug_clothing", "gym_shirt", "cardigan",
-            "criss-cross_halter", "frilled_shirt", "sweatshirt", "hawaiian_shirt", "hoodie",
-            "kappougi", "plaid_shirt", "polo_shirt", "print_shirt", "sleeveless_hoodie",
-            "sleeveless_shirt", "striped_shirt", "tank_top", "vest", "waistcoat",
-            "tied_shirt", "undershirt", "crop_top", "camisole", "midriff",
-            "oversized_shirt", "borrowed_garments", "blazer", "overcoat", "double-breasted",
-            "long_coat", "winter_coat", "hooded_coat", "fur_coat", "fur-trimmed_coat",
-            "duffel_coat", "parka", "cropped_jacket", "track_jacket", "hooded_track_jacket",
-            "military_jacket", "camouflage_jacket", "leather_jacket", "letterman_jacket", "fur_trimmed_jacket",
-            "two-tone_jacket", "trench_coat", "windbreaker", "raincoat", "hagoromo",
-            "tunic", "cape", "capelet", "winter_clothes", "sweater",
-            "pullover_sweaters", "ribbed_sweater", "sweater_vest", "backless_sweater", "aran_sweater",
-            "beige_sweater", "brown_sweater", "hooded_sweater", "off-shoulder_sweater", "striped_sweater",
-            "puffer_jacket", "short_over_long_sleeves", "impossible_clothes", "heart_cutout", "ofuda_on_clothes",
-            "waist_apron", "maid_apron", "waist_cape", "clothes_around_waist", "jacket_around_waist",
-            "sweater_around_waist", "loincloth", "bustier", "corset", "girdle",
-            "armor", "bikini_armor", "full_armor", "plate_armor", "japanese_armor",
-            "kusazuri", "power_armor", "mecha", "helmet", "kabuto",
-            "off-shoulder_armor", "shoulder_armor", "muneate", "breastplate", "faulds",
-            "wringing_clothes", "shiny_clothes", "kariginu", "front-tie_top", "jacket_on_shoulders"
-        ]
+            "skirt",  # moved from "top"
+            "mini_skirt",
+            "skirt_suit",
+            "bikini_skirt",
+            "pleated_skirt",
+            "pencil_skirt",
+            "bubble_skirt",
+            "tutu",
+            "ballgown",  # can also be an outfit, but more often a bottom
+            "beltskirt",
+            "denim_skirt",
+            "suspender_skirt",
+            "long_skirt",
+            "summer_long_skirt",
+            "hakama_skirt",
+            "high-waist_skirt",
+            "suspender_long_skirt",
+            "chiffon_skirt",
+            "lace_skirt",
+            "ribbon-trimmed_skirt",
+            "layered_skirt",
+            "print_skirt",
+            "multicolored_skirt",
+            "striped_skirt",
+            "plaid_skirt",
+            "flared_skirt",
+            "floral_skirt",
+            "hot_pants",
+            "striped_shorts",
+            "suspender_shorts",
+            "denim_shorts",
+            "puffy_shorts",
+            "dolphin_shorts",
+            "dolfin_shorts",
+            "tight_pants",
+            "track_pants",
+            "yoga_pants",
+            "bike_shorts",
+            "gym_shorts",
+            "pants",
+            "puffy_pants",
+            "pumpkin_pants",
+            "hakama_pants",
+            "harem_pants",
+            "bloomers",
+            "buruma",
+            "jeans",
+            "cargo_pants",
+            "camouflage_pants",
+            "capri_pants",
+            "chaps",
+            "lowleg_pants",
+            "plaid_pants",
+            "single_pantsleg",
+            "striped_pants",
+            "torn_jeans",
+            "hakama",
+            "harness",
+            "rigging",
+            "waist_apron",
+            "maid_apron",
+            "waist_cape",
+            "clothes_around_waist",
+            "jacket_around_waist",
+            "sweater_around_waist",
+            "loincloth",
+            "bustier",
+            "corset",
+            "girdle",
+            "armor",
+            "bikini_armor",
+            "full_armor",
+            "plate_armor",
+            "japanese_armor",
+            "kusazuri",
+            "power_armor",
+            "mecha",
+            "helmet",
+            "kabuto",
+            "off-shoulder_armor",
+            "shoulder_armor",
+            "muneate",
+            "breastplate",
+            "faulds",
+            "wringing_clothes",
+            "shiny_clothes",
+            "kariginu",
+        ],
     }
+
+    BACKGROUND = []
 
     WEIGHTS = {"LOW": ":0.6", "NORMAL": ":1.0", "HIGH": ":1.15", "VERY HIGH": ":1.4"}
 
@@ -527,16 +888,16 @@ class EasyNoobai:
 
         kwargs["SFW"] and prompt_elements.append("(sfw:1.2),")
         kwargs["Year"] != "-" and prompt_elements.append(f"{kwargs['Year']},")
-        
-        shots = [EasyNoobai.SHOT_TYPES.get(kwargs.get("Shot Type", "-")), 
-                 EasyNoobai.FRAMING.get(kwargs.get("Framing", "-")), 
-                 EasyNoobai.PERSPECTIVE.get(kwargs.get("Perspective", "-")),
-                 EasyNoobai.FOCUS.get(kwargs.get("Focus", "-"))]
+
+        shots = [
+            EasyNoobai.SHOT_TYPES.get(kwargs.get("Shot Type", "-")),
+            EasyNoobai.FRAMING.get(kwargs.get("Framing", "-")),
+            EasyNoobai.PERSPECTIVE.get(kwargs.get("Perspective", "-")),
+            EasyNoobai.FOCUS.get(kwargs.get("Focus", "-")),
+        ]
         for shot in shots:
             if shot:
                 prompt_elements.append(f"{shot},")
-
-
 
         kwargs.get("Prompt") and prompt_elements.append(kwargs["Prompt"] + ",")
         kwargs.get("suffix") and prompt_elements.append(kwargs["suffix"])
@@ -859,7 +1220,6 @@ class NoobaiCharacters:
 
         return "".join(formatted_parts)
 
-
     @staticmethod
     def add_prefix(prompt_elements: List[str], prefix: str) -> str:
         prompt = " ".join(prompt_elements).lower()
@@ -947,7 +1307,6 @@ class NoobaiArtists:
 
         return PSONA_UI_NOOBAI_ARTISTS
 
-
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("ARTIST PROMPT",)
     FUNCTION = "construct"
@@ -1008,26 +1367,25 @@ class NoobaiArtists:
                 insert_index = self.find_insertion_point(prefix, character_names)
                 final_prompt = f"{prefix[:insert_index].rstrip()}, {artist_prompts_str}, {prefix[insert_index:].lstrip()}"
             else:
-                final_prompt = artist_prompts_str    
+                final_prompt = artist_prompts_str
 
         final_prompt = re.sub(r"\s+", " ", final_prompt).strip()
 
         return (final_prompt,)
-    
-    
+
     @staticmethod
     def find_insertion_point(text: str, character_names: List[str]) -> int:
         last_char_index: int = -1
         for name in character_names:
-            pattern: str = rf'{re.escape(name)}(?:\s*\([^)]*\))?(?::[0-9.]+)?'
+            pattern: str = rf"{re.escape(name)}(?:\s*\([^)]*\))?(?::[0-9.]+)?"
             matches: List[re.Match] = list(re.finditer(pattern, text))
             if matches:
                 last_char_index = max(last_char_index, matches[-1].end())
-        
+
         if last_char_index != -1:
             return last_char_index
         else:
-            comma_match: Optional[re.Match] = re.search(r',\s*', text)
+            comma_match: Optional[re.Match] = re.search(r",\s*", text)
             if comma_match:
                 return comma_match.end()
             else:
@@ -1039,7 +1397,6 @@ class NoobaiArtists:
             return 0
         total_weight = sum(weight for _, weight in characters)
         return total_weight / len(characters)
-
 
     @staticmethod
     def distribute_weights(avg_weight: float, count: int) -> List[float]:
@@ -1060,7 +1417,6 @@ class NoobaiArtists:
         ]
 
         return normalized_weights
-
 
     @staticmethod
     def format_tag(tag: str) -> str:
@@ -1301,58 +1657,70 @@ class NoobaiHairstyles:
     def INPUT_TYPES(cls) -> Dict:
         HAIRSTYLE_UI: Dict = {
             "optional": {
-            "prefix": (
-                "STRING",
-                {
-                "forceInput": True,
-                "tooltip": "Prefix to the prompt with a custom string.",
-                },
-            ),
-            "suffix": (
-                "STRING",
-                {
-                "forceInput": True,
-                "tooltip": "Suffix to the prompt with a custom string.",
-                },
-            ),
+                "prefix": (
+                    "STRING",
+                    {
+                        "forceInput": True,
+                        "tooltip": "Prefix to the prompt with a custom string.",
+                    },
+                ),
+                "suffix": (
+                    "STRING",
+                    {
+                        "forceInput": True,
+                        "tooltip": "Suffix to the prompt with a custom string.",
+                    },
+                ),
             },
             "required": {
-            "Length and Volume": (
-                ["-"] + list(EasyNoobai.HAIRSTYLE["Length and Volume"]),
-                {"default": "-", "tooltip": "Select a Length and Volume"},
-            ),
-            "Haircuts": (
-                ["-"] + [
-                f"{category.lower()} {option}"
-                for category, options in EasyNoobai.HAIRSTYLE["Haircuts"].items()
-                for option in options
-                ],
-                {"default": "-", "tooltip": "Select a haircut"},
-            ),
-            "Hairstyles": (
-                ["-"] + [
-                f"{category.lower()} {option}"
-                for category, options in EasyNoobai.HAIRSTYLE["Hairstyles"].items()
-                for option in options
-                ],
-                {"default": "-", "tooltip": "Select a hairstyle"},
-            ),
-            "Hair Colors": (
-                ["-"] + [
-                f"{option}"
-                for category, options in EasyNoobai.HAIRSTYLE["Hair Colors"].items()
-                for option in options
-                ],
-                {"default": "-", "tooltip": "Select a Hair Color"},
-            ),
-            "Inject Styles": (
-                "BOOLEAN",
-                {"default": True, "tooltip": "Inject into prefix content"},
-            ),
-            "Format Tag": (
-                "BOOLEAN",
-                {"default": False, "tooltip": "Will format the tag using \( and \)"},
-            ),
+                "Length and Volume": (
+                    ["-"] + list(EasyNoobai.HAIRSTYLE["Length and Volume"]),
+                    {"default": "-", "tooltip": "Select a Length and Volume"},
+                ),
+                "Haircuts": (
+                    ["-"]
+                    + [
+                        f"{category.lower()} {option}"
+                        for category, options in EasyNoobai.HAIRSTYLE[
+                            "Haircuts"
+                        ].items()
+                        for option in options
+                    ],
+                    {"default": "-", "tooltip": "Select a haircut"},
+                ),
+                "Hairstyles": (
+                    ["-"]
+                    + [
+                        f"{category.lower()} {option}"
+                        for category, options in EasyNoobai.HAIRSTYLE[
+                            "Hairstyles"
+                        ].items()
+                        for option in options
+                    ],
+                    {"default": "-", "tooltip": "Select a hairstyle"},
+                ),
+                "Hair Colors": (
+                    ["-"]
+                    + [
+                        f"{option}"
+                        for category, options in EasyNoobai.HAIRSTYLE[
+                            "Hair Colors"
+                        ].items()
+                        for option in options
+                    ],
+                    {"default": "-", "tooltip": "Select a Hair Color"},
+                ),
+                "Inject Styles": (
+                    "BOOLEAN",
+                    {"default": True, "tooltip": "Inject into prefix content"},
+                ),
+                "Format Tag": (
+                    "BOOLEAN",
+                    {
+                        "default": False,
+                        "tooltip": "Will format the tag using \( and \)",
+                    },
+                ),
             },
         }
 
@@ -1366,45 +1734,37 @@ class NoobaiHairstyles:
     def construct(self, **kwargs) -> tuple:
         prefix = kwargs.get("prefix", "").strip()
         suffix = kwargs.get("suffix", "").strip()
-        
+
         # Get hairstyle components
-        length_vol = kwargs.get("Length and Volume", "-")
+        haircolors = kwargs.get("Hair Colors", "-")
         haircut = kwargs.get("Haircuts", "-")
         hairstyle = kwargs.get("Hairstyles", "-")
-        haircolors = kwargs.get("Hair Colors", "-")
         inject_styles = kwargs.get("Inject Styles", True)
-        format_tag = kwargs.get("Format Tag", False)
-        
-        # Filter valid components
-        components = [comp for comp in [length_vol, haircut, hairstyle, haircolors] if comp != "-"]
-        
-        if not components or not inject_styles :
+
+        # Filter valid components and construct the sentence
+        components = [
+            haircolors if haircolors != "-" else "",
+            haircut if haircut != "-" else "",
+            hairstyle if hairstyle != "-" else "",
+        ]
+        sentence = " ".join(filter(None, components)).strip()
+
+        if not sentence or not inject_styles:
             return (f"{prefix} {suffix}".strip(),)
-        
-        # Create combined hairstyle string
-        combined = ", ".join(components)
-        formatted = f"\({combined}\)" if format_tag else combined
-        
+
+        # Add a space at the start and a comma at the end
+        sentence = f" {sentence}," if sentence else ""
+
         # Handle prefix insertion logic
         if prefix:
-            # Split prefix into maximum 6 parts (5 commas)
-            parts = prefix.split(',', 5)
-            
-            if len(parts) > 5:
-                # Insert after 5th comma if exists
-                new_prefix = f"{','.join(parts[:5])}, {formatted},{parts[5]}"
-            else:
-                # Append to end if fewer than 5 commas
-                new_prefix = f"{prefix}, {formatted}"
-            
-            prompt = f"{new_prefix} {suffix}".strip().replace(" ,", ",")
+            prompt = f"{prefix}{sentence} {suffix}".strip()
         else:
             # No prefix case
-            prompt = f"{formatted} {suffix}".strip()
-        
+            prompt = f"{sentence} {suffix}".strip()
+
         return (prompt,)
 
-    
+
 class NoobaiClothing:
     def __init__(self):
         pass
@@ -1447,7 +1807,10 @@ class NoobaiClothing:
                 ),
                 "Format Tag": (
                     "BOOLEAN",
-                    {"default": False, "tooltip": "Will format the tag using \( and \)."},
+                    {
+                        "default": False,
+                        "tooltip": "Will format the tag using \( and \).",
+                    },
                 ),
             },
         }
@@ -1477,23 +1840,14 @@ class NoobaiClothing:
             return (f"{prefix} {suffix}".strip(),)
 
         # Create combined clothing string
-        combined = ", ".join(components)
-        formatted = f"\({combined}\)" if format_tag else combined
+        combined = ", ".join([f" {comp}," for comp in components])
+        formatted = f"\({combined.strip()}\)" if format_tag else combined.strip()
 
         # Handle prefix insertion logic
         if prefix:
-            parts = prefix.split(',', 8)
-
-            if len(parts) > 8:
-                # Insert after 5th comma if exists
-                new_prefix = f"{','.join(parts[:8])}, {formatted},{parts[8]}"
-            else:
-                # Append to end if fewer than 8 commas
-                new_prefix = f"{prefix}, {formatted}"
-
-            prompt = f"({new_prefix}1.6 {suffix}1.6)".strip().replace(" ,", ",")
+            prompt = f"{prefix} {formatted} {suffix}".strip().replace(" ,", ",")
         else:
             # No prefix case
-            prompt = f"({formatted}1.6 {suffix}1.6)".strip()
+            prompt = f"{formatted} {suffix}".strip()
 
         return (prompt,)
