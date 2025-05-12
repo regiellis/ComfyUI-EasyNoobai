@@ -1,6 +1,7 @@
 import os
 
 from .src import (
+    EasyNoobaiMasterModel,
     EasyNoobai,
     NoobaiCharacters,
     NoobaiArtists,
@@ -16,6 +17,7 @@ from .src.nodes.poses import NoobaiPoses
 WEB_DIRECTORY = os.path.join(os.path.dirname(__file__), "js")
 
 NODE_CLASS_MAPPINGS = {
+    "EasyNoobaiMasterModel": EasyNoobaiMasterModel,
     "EasyNoobai": EasyNoobai,
     "NoobaiCharacters": NoobaiCharacters,
     "NoobaiPoses": NoobaiPoses,
@@ -28,6 +30,7 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
+    "EasyNoobaiMasterModel": "Noobai Model",
     "EasyNoobai": "Noobai Prompt",
     "NoobaiPony": "Pony Tokens",
     "NoobaiHairstyles": "Hairstyles",

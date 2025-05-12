@@ -1,4 +1,5 @@
 import sys
+import re
 from pathlib import Path
 from typing import Dict
 from enum import Enum
@@ -57,7 +58,9 @@ class NoobaiPoses:
         HEEL_LIFT = "heel lift, raised slightly off the ground"
         WEIGHT_SHIFT = "weight shift, body angled to one side"
         LEG_UP_POSE = "leg up pose, raising a leg playfully or poised"
-          
+        
+    CHAIN_INSERT_TOKEN = "[EN122112_CHAIN]"
+
     @classmethod
     def INPUT_TYPES(cls) -> Dict:
         PSONA_UI_POSE_TOKEN: Dict = {
@@ -72,6 +75,13 @@ class NoobaiPoses:
                 "suffix": (
                     "STRING",
                     {"forceInput": True, "tooltip": "Suffix to the prompt."},
+                ),
+                "Add Chain Insert": (
+                    "BOOLEAN", 
+                    {
+                        "default": False, 
+                        "tooltip": f"If True, places '{NoobaiPoses.CHAIN_INSERT_TOKEN}' for the next chained node to insert its content."
+                    }
                 ),
             },
             "required": {
@@ -100,11 +110,11 @@ class NoobaiPoses:
                     },
                 ),
                 "Format": (
-                  "BOOLEAN",
-                  {
-                      "default":False,
-                      "Tooltip": "Changes pose token into KEY, ex low squat > LOW_SQUAT"
-                  }
+                    "BOOLEAN",
+                    {
+                        "default": False,
+                        "Tooltip": "Changes pose token into KEY, ex low squat > LOW_SQUAT",
+                    },
                 ),
                 "Offset (Beta)": (
                     "INT",
@@ -125,35 +135,144 @@ class NoobaiPoses:
     FUNCTION = "construct"
     CATEGORY = "itsjustregi / Easy Noobai"
 
+
+    def _join_prompt_parts(self, *parts: str) -> str:
+        """Helper to join non-empty prompt parts with ', ' and clean up."""
+        # For this node, simple space joining might be more appropriate if it's just injecting one tag.
+        # If it's meant to be a comma-separated tag, then the previous helper is fine.
+        # Let's assume it should be a single tag that might be inserted.
+        # If multiple poses were possible, then comma joining would be better.
+        # For now, let's use a simpler join that doesn't add commas by default.
+        filtered_parts = [p.strip() for p in parts if p and p.strip()]
+        joined = " ".join(filtered_parts)
+        # Clean up multiple spaces
+        joined = re.sub(r'\s{2,}', ' ', joined).strip()
+        return joined
+
+
     def construct(self, **kwargs) -> tuple:
-        prefix = kwargs.get("prefix", "").strip()
-        suffix = kwargs.get("suffix", "").strip()
-        pose_weight = kwargs.get("Pose Weight")
-        pose_set_one = kwargs.get("Pose Set")
-        if not kwargs.get("Descriptive (BETA)"):
-            set_post = pose_set_one if kwargs.get('Format') else pose_set_one.lower().replace("_", " ")
-            pose = set_post if set_post != "-" else ""
+        prefix_input_str = kwargs.get("prefix", "").strip()
+        suffix_chain_input_str = kwargs.get("suffix", "").strip() # Suffix from this node's input
+        add_insert_point_for_next_node = kwargs.get("Add Chain Insert Point", False)
+
+        # --- 1. Generate THIS Node's CORE Content (the pose_string) ---
+        pose_weight = kwargs.get("Pose Weight", 1.0)
+        pose_set_one_name = kwargs.get("Pose Set") # This is the key/name of the pose
+        
+        pose_text = ""
+        if pose_set_one_name != "-":
+            if not kwargs.get("Descriptive (BETA)"):
+                # Assuming pose_set_one_name is a string that might need formatting
+                if kwargs.get("Format", True): # 'Format' here probably means 'replace underscores'
+                    pose_text = pose_set_one_name # Already formatted if it's from a list of keys
+                else:
+                    pose_text = pose_set_one_name.lower().replace("_", " ")
+            else:
+                # Descriptive (BETA) logic
+                try:
+                    pose_text = NoobaiPoses.PoseTokens[pose_set_one_name].value
+                except KeyError:
+                    # Handle cases where pose_set_one_name might not be in PoseTokens
+                    # For example, if "custom_raw_pose" is selected, maybe it implies using the string directly
+                    if pose_set_one_name == "custom_raw_pose": # Or some other indicator for raw input
+                        # If you have another input for raw pose text:
+                        # pose_text = kwargs.get("Raw Pose Text", "").strip()
+                        pose_text = "" # Or handle as error/default
+                    else:
+                        pose_text = "" # Default to empty if not found
+
+        this_node_core_content_str = ""
+        if pose_text:
+            # Decide if the comma is part of the core content or added later
+            # The original code had a comma: f" {pose_text}:{pose_weight},"
+            # Let's keep it for now, assuming the pose is a distinct, weighted tag.
+            this_node_core_content_str = f"{pose_text}:{pose_weight:.2f}" # Add comma later if needed by joining context
+                                                                     # Removed leading space and trailing comma for now.
+
+        # --- 2. Handle Prefix Input ---
+        working_prompt_str = ""
+        deferred_suffix_from_parent = ""
+        offset_for_non_token_insert = kwargs.get("Offset", 0) # This node's specific offset
+
+        if NoobaiPoses.CHAIN_INSERT_TOKEN in prefix_input_str:
+            parts = prefix_input_str.split(NoobaiPoses.CHAIN_INSERT_TOKEN, 1)
+            prefix_head = parts[0].strip()
+            if len(parts) > 1:
+                deferred_suffix_from_parent = parts[1].strip()
+            
+            # Insert this node's core content (pose_string)
+            # If pose is a comma-separated tag, it should be joined with a comma.
+            # If it's more like an adjective, space join.
+            # Assuming it's a tag that should be comma-separated from other tags:
+            temp_parts = [p for p in [prefix_head, this_node_core_content_str] if p and p.strip()]
+            working_prompt_str = ", ".join(temp_parts).strip()
+            working_prompt_str = re.sub(r'\s*,\s*', ', ', working_prompt_str) # Clean commas
+
         else:
-            pose = (
-                ""
-                if pose_set_one == "-"
-                else NoobaiPoses.PoseTokens[pose_set_one].value
-            )
-        offset = kwargs.get("Offset", 0)
+            # TOKEN NOT FOUND: Use this node's original offset logic to inject pose_string
+            if prefix_input_str and this_node_core_content_str:
+                prefix_words = prefix_input_str.split()
+                # Original logic: insert (len - offset) from end.
+                # If offset = 0, insert at end. If offset = 1, insert before last word.
+                # A positive offset means count from the end.
+                # A negative offset could mean count from the start (adjust if that's the intent).
+                # Let's assume positive offset = from end, 0 = at end.
+                
+                # Ensure offset is within bounds of prefix_words length
+                num_prefix_words = len(prefix_words)
+                
+                # Convert offset to 0-based index from start for insertion
+                # If offset = 0 (end), index = num_prefix_words
+                # If offset = 1 (before last), index = num_prefix_words - 1
+                # If offset = N (N from end), index = num_prefix_words - N
+                # If offset is negative, e.g., -X, it means X from start. index = X (after validation)
+                
+                insertion_index = 0
+                if offset_for_non_token_insert >= 0: # Counts from the end
+                    insertion_index = num_prefix_words - offset_for_non_token_insert
+                else: # Negative offset counts from the start
+                    insertion_index = abs(offset_for_non_token_insert)
+                
+                insertion_index = max(0, min(num_prefix_words, insertion_index))
 
-        # Construct the pose string
-        pose_string = f" {pose}:{pose_weight}," if pose else ""
+                prefix_words.insert(insertion_index, this_node_core_content_str) # Insert the pose tag
+                working_prompt_str = " ".join(prefix_words).strip() # Join with spaces
+                # After insertion, ensure it's a proper comma-separated list if that's the style.
+                # This might be tricky if inserting mid-sentence. For now, assume it becomes part of a tag list.
+                working_prompt_str = re.sub(r'\s*,\s*', ', ', working_prompt_str.replace(f" {this_node_core_content_str}", f", {this_node_core_content_str}")).strip()
+                working_prompt_str = working_prompt_str.removeprefix(',').strip()
 
-        # Inject the pose string into the prefix based on the offset
-        if prefix and pose_string:
-            prefix_words = prefix.split()
-            insertion_index = max(0, len(prefix_words) - offset)
-            prefix_words.insert(insertion_index, pose_string.strip())
-            updated_prefix = " ".join(prefix_words)
-        else:
-            updated_prefix = prefix
 
-        # Combine the updated prefix, suffix, and other elements
-        final_prompt = " ".join(filter(None, [updated_prefix, suffix])).strip()
+            elif this_node_core_content_str: # No prefix, just the pose
+                working_prompt_str = this_node_core_content_str
+            else: # No prefix, no pose
+                working_prompt_str = prefix_input_str # (which is empty)
+        
+        working_prompt_str = working_prompt_str.strip()
 
-        return (final_prompt,)
+        # --- 3. Add THIS node's CHAIN_INSERT_TOKEN (if toggled) ---
+        # This node doesn't have complex "modifiers" like EasyNoobai. Token is added after its content.
+        prompt_after_own_token_add = working_prompt_str
+        if add_insert_point_for_next_node:
+            if prompt_after_own_token_add: # If there's content, add token after a comma (if style is comma-sep)
+                prompt_after_own_token_add = f"{prompt_after_own_token_add}, {NoobaiPoses.CHAIN_INSERT_TOKEN}"
+            else: # If no content yet, token is the first thing
+                prompt_after_own_token_add = NoobaiPoses.CHAIN_INSERT_TOKEN
+        
+        prompt_after_own_token_add = prompt_after_own_token_add.strip()
+        
+        # --- 4. Combine with deferred_suffix_from_parent and suffix_chain_input_str ---
+        # Use the _join_prompt_parts helper, adapted for comma separation if that's the overall style
+        temp_parts_for_final_join = [prompt_after_own_token_add, deferred_suffix_from_parent, suffix_chain_input_str]
+        final_prompt_str = ", ".join([p for p in temp_parts_for_final_join if p and p.strip()]).strip()
+
+        # --- 5. Final Cleanup ---
+        final_prompt_str = re.sub(r'\s*,\s*', ', ', final_prompt_str).strip()
+        final_prompt_str = re.sub(r',{2,}', ',', final_prompt_str)
+        final_prompt_str = final_prompt_str.removeprefix(',').removesuffix(',').strip()
+        # If CHAIN_INSERT_TOKEN is the only thing, or ends up with a comma before/after, clean it.
+        final_prompt_str = final_prompt_str.replace(f", {NoobaiPoses.CHAIN_INSERT_TOKEN}", f" {NoobaiPoses.CHAIN_INSERT_TOKEN}")
+        final_prompt_str = final_prompt_str.replace(f"{NoobaiPoses.CHAIN_INSERT_TOKEN},", f"{NoobaiPoses.CHAIN_INSERT_TOKEN} ")
+        final_prompt_str = re.sub(r'\s{2,}', ' ', final_prompt_str).strip() # Consolidate spaces
+
+        return (final_prompt_str if final_prompt_str else " ",)

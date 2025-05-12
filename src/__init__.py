@@ -1,5 +1,6 @@
 import sys
 import re
+import random
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from enum import Enum
@@ -21,6 +22,167 @@ EasyNoobai - Resources for implementation of EasyNoobai prompt sturcture
 - https://civitai.com/articles/8962
 
 """
+
+# TODO: This is a duplicate DICT, should make all CONST GLOBAL
+RESOLUTIONS: Dict[str, str] = {
+    "1:1 - (2048x2048)": "2048x2048",
+    "4:5 - (1536x1920)": "1536x1920",
+    "16:9 - (2048x1152)": "2048x1152",
+    "3:2 - (2016x1344)": "2016x1344",
+    "5:4 - (1920x1536)": "1920x1536",
+    "2:1 - (2048x1024)": "2048x1024",
+    "1:2 - (1024x2048)": "1024x2048",
+    "1:3 - (672x2016)": "672x2016",
+    "1:4 - (512x2048)": "512x2048",
+    "1:10 - (192x1920)": "192x1920",
+    "10:1 - (1920x192)": "1920x192",
+    "21:9 - (2016x864)": "2016x864",
+    "9:21 - (864x2016)": "864x2016",
+    "32:9 - (2048x576)": "2048x576",
+    "9:32 - (576x2048)": "576x2048",
+    "7:4 - (2016x1152)": "2016x1152",
+    "4:7 - (1152x2016)": "1152x2016",
+    "5:3 - (1920x1152)": "1920x1152",
+    "3:5 - (1152x1920)": "1152x1920",
+}
+
+PSONA_UI_MODEL_SETTINGS: Dict = {
+    "required": {
+        "Model": (
+            folder_paths.get_filename_list("checkpoints"),
+            {"tooltip": "ONLY USE NOOBAI XL OR ILLUSTRIOUS-XL MODELS HERE."},
+        ),
+        "Stop at Clip Layer": (
+            "INT",
+            {"default": -2, "min": -2, "max": 10, "step": 1},
+        ),
+        "Resolution": (
+            list(RESOLUTIONS.keys()),
+            {
+                "default": "2:3 - (1024x1536)",
+                "tooltip": "Acts as a source filter.",
+            },
+        ),
+        "Batch Size": (
+            "INT",
+            {
+                "default": 1,
+                "min": 1,
+                "max": 100,
+                "tooltip": "The number of latent images in the batch.",
+            },
+        ),
+        "seed": (
+            "INT",
+            {
+                "default": 0,
+                "min": 0,
+                "max": 250000,
+                "step": 1,
+                "display": "slider",
+            },
+        ),
+        "steps": (
+            "INT",
+            {
+                "default": 30,
+                "min": 1,
+                "max": 100,
+                "step": 1,
+                "display": "slider",
+            },
+        ),
+        "cfg": (
+            "FLOAT",
+            {
+            "default": 7.0,
+            "min": 1.0,
+            "max": 30.0,
+            "step": 0.1,
+            "tooltip": "CFG Scale.",
+            },
+        ),
+    },
+}
+
+
+class EasyNoobaiMasterModel:
+    def __init__(self):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return PSONA_UI_MODEL_SETTINGS
+
+    RETURN_TYPES = (
+        "MODEL",
+        "VAE",
+        "CLIP",
+        "LATENT",
+        "INT",
+        "INT",
+        "FLOAT",
+    )
+    RETURN_NAMES = (
+        "MODEL",
+        "VAE",
+        "CLIP",
+        "LATENT",
+        "SEED",
+        "STEPS",
+        "CFG SCALE",
+    )
+    FUNCTION = "load_model_settings"
+    CATEGORY = "itsjustregi / Easy Noobai"
+
+    # FROM COMFYUI CORE
+    def generate(self, width, height, batch_size=1) -> tuple:
+        latent = torch.zeros(
+            [batch_size, 4, height // 8, width // 8], device=self.device
+        )
+        return ({"samples": latent},)
+
+    # FROM COMFYUI CORE
+    def modify_clip(self, clip, stop_at_clip_layer):
+        clip.clip_layer(stop_at_clip_layer)
+        return clip
+
+    # FROM COMFYUI CORE
+    def load_checkpoint(self, ckpt_name) -> tuple:
+        ckpt_path = folder_paths.get_full_path_or_raise("checkpoints", ckpt_name)
+        out = comfy.sd.load_checkpoint_guess_config(
+            ckpt_path,
+            output_vae=True,
+            output_clip=True,
+            embedding_directory=folder_paths.get_folder_paths("embeddings"),
+        )
+        return out[:3]
+
+    def parse_resolution(self, resolution: str) -> tuple:
+        dimensions = RESOLUTIONS[resolution].split("x")
+        return int(dimensions[0]), int(dimensions[1])
+
+    def load_model_settings(self, **kwargs):
+        resolution = self.parse_resolution(kwargs["Resolution"])
+        steps = int(kwargs.get("steps", 30))
+        seed = int(kwargs.get("seed", random.randint(0, 250000)))
+        batch_size = int(kwargs.get("Batch Size", 1))
+        stop_at_clip_layer = kwargs.get("Stop at Clip Layer", -2)
+        cfg = float(kwargs.get("cfg", 7.0))
+
+        model, clip, vae = self.load_checkpoint(kwargs["Model"])
+        clip = self.modify_clip(clip, stop_at_clip_layer)
+        latent = self.generate(resolution[0], resolution[1], batch_size)[0]
+
+        return (
+            model,
+            vae,
+            clip,
+            latent,
+            seed,
+            steps,
+            cfg,
+        )
 
 
 class EasyNoobai:
@@ -72,18 +234,6 @@ class EasyNoobai:
             "overexposed, overfiltered, oversaturated",
         ]
     )
-
-    RESOLUTIONS: Dict[str, str] = {
-        "9:16 - (768x1344)": "768x1344",
-        "10:13 - (832x1216)": "832x1216",
-        "4:5 - (896x1152)": "896x1152",
-        "1:1 - (1024x1024)": "1024x1024",
-        "2:3 - (1024x1536)": "1024x1536",
-        "4:3 - (1152x896)": "1152x896",
-        "3:2 - (1216x832)": "1216x832",
-        "16:9 - (1344x768)": "1344x768",
-        "3:2 - (1536x1024)": "1536x1024",
-    }
 
     SHOT_TYPES: Dict[str, str] = {
         "Dutch Angle": "(dutch angle:1.15)",
@@ -550,7 +700,7 @@ class EasyNoobai:
             "jacket_on_shoulders",
         ],
         "bottoms": [
-            "skirt",  # moved from "top"
+            "skirt",  
             "mini_skirt",
             "skirt_suit",
             "bikini_skirt",
@@ -558,7 +708,7 @@ class EasyNoobai:
             "pencil_skirt",
             "bubble_skirt",
             "tutu",
-            "ballgown",  # can also be an outfit, but more often a bottom
+            "ballgown",
             "beltskirt",
             "denim_skirt",
             "suspender_skirt",
@@ -650,9 +800,12 @@ class EasyNoobai:
             "scenery of a ruin city, patrol team in the background",
         ]
     )
+    
+    CHAIN_INSERT_TOKEN = "[EN122112_CHAIN]"
 
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
 
     @classmethod
     def INPUT_TYPES(cls) -> Dict:
@@ -672,32 +825,15 @@ class EasyNoobai:
                         "tooltip": "Suffix to the prompt with a custom string.",
                     },
                 ),
+                "Add Chain Insert": (
+                    "BOOLEAN", 
+                    {
+                        "default": False, 
+                        "tooltip": f"If True, places '{EasyNoobai.CHAIN_INSERT_TOKEN}' for the next chained node to insert its content."
+                    }
+                ),
             },
             "required": {
-                "Model": (
-                    folder_paths.get_filename_list("checkpoints"),
-                    {"tooltip": "ONLY USE NOOBAI XL OR ILLUSTRIOUS-XL MODELS HERE."},
-                ),
-                "Stop at Clip Layer": (
-                    "INT",
-                    {"default": -2, "min": -2, "max": 10, "step": 1},
-                ),
-                "Resolution": (
-                    list(EasyNoobai.RESOLUTIONS.keys()),
-                    {
-                        "default": "2:3 - (1024x1536)",
-                        "tooltip": "Acts as a source filter.",
-                    },
-                ),
-                "Batch Size": (
-                    "INT",
-                    {
-                        "default": 1,
-                        "min": 1,
-                        "max": 100,
-                        "tooltip": "The number of latent images in the batch.",
-                    },
-                ),
                 "Character": (
                     ["-"] + list(CHARACTERS.keys()),
                     {"default": "-", "tooltip": "Danbooru Character List"},
@@ -808,186 +944,196 @@ class EasyNoobai:
         return PSONA_UI_EASY_NOOBAI
 
     RETURN_TYPES = (
-        "MODEL",
-        "VAE",
-        "CLIP",
-        "LATENT",
         "STRING",
         "STRING",
     )
     RETURN_NAMES = (
-        "MODEL",
-        "VAE",
-        "CLIP",
-        "LATENT",
         "PROMPT",
         "NEGATIVE",
     )
     OUTPUT_IS_LIST = (
         False,
         False,
-        False,
-        False,
-        False,
-        False,
     )
     FUNCTION = "construct"
     CATEGORY = "itsjustregi / Easy Noobai"
 
+    def _join_prompt_parts(self, *parts: str) -> str:
+        """Helper to join non-empty prompt parts with ', ' and clean up."""
+        filtered_parts = [p.strip().removesuffix(',') for p in parts if p and p.strip()]
+        joined = ", ".join(filtered_parts)
+        # Final cleanup for stray commas or multiple commas
+        joined = re.sub(r'\s*,\s*', ', ', joined).strip()
+        joined = re.sub(r',{2,}', ',', joined)
+        joined = joined.removeprefix(',').removesuffix(',').strip()
+        return joined
+
     def construct(self, **kwargs) -> tuple:
-        prefix = kwargs.get("prefix", "").strip()
-        suffix = kwargs.get("suffix", "").strip()
+        prefix_input_str = kwargs.get("prefix", "").strip()
+        suffix_chain_input_str = kwargs.get("suffix", "").strip() # Suffix from this node's input
+        add_insert_point_for_next_node = kwargs.get("Add Chain Insert Point", False)
 
-        prompt_elements, negative_elements = [], []
-        ca_weight = (
-            EasyNoobai.WEIGHTS[kwargs.get("Character Weight")]
-            if kwargs.get("Character Weight") != "-"
-            else ""
-        )
-        aa_weight = (
-            EasyNoobai.WEIGHTS[kwargs.get("Artist Weight")]
-            if kwargs.get("Artist Weight") != "-"
-            else ""
-        )
+        this_node_core_elements = []
+        ca_weight = (EasyNoobai.WEIGHTS[kwargs.get("Character Weight")] if kwargs.get("Character Weight") != "-" else "")
+        aa_weight = (EasyNoobai.WEIGHTS[kwargs.get("Artist Weight")] if kwargs.get("Artist Weight") != "-" else "")
 
-        resolution = self.parse_resolution(kwargs["Resolution"])
-        kwargs["Boy Characters"] != "-" and prompt_elements.append(
-            f"{kwargs['Boy Characters']},"
-        )
-        kwargs["Girl Characters"] != "-" and prompt_elements.append(
-            f"{kwargs['Girl Characters']},"
-        )
+        if kwargs.get("Boy Characters", "-") != "-": this_node_core_elements.append(kwargs['Boy Characters'])
+        if kwargs.get("Girl Characters", "-") != "-": this_node_core_elements.append(kwargs['Girl Characters'])
+        
+        format_tag_active = kwargs.get("Format Tag", True)
+        if kwargs.get("Character", "-") != "-":
+            char_val = kwargs['Character']
+            this_node_core_elements.append(f"\({self.format_tag(char_val)}{ca_weight}\)" if format_tag_active else f"{char_val}{ca_weight}")
+        if kwargs.get("E621 Character", "-") != "-":
+            echar_val = kwargs['E621 Character']
+            this_node_core_elements.append(f"\({self.format_tag(echar_val)}{ca_weight}\)" if format_tag_active else f"{echar_val}{ca_weight}")
+        if kwargs.get("Artist", "-") != "-":
+            art_val = kwargs['Artist']
+            tag_str = self.format_tag(art_val) 
+            this_node_core_elements.append(f"artist:{tag_str}{aa_weight}")
+        if kwargs.get("E621 Artist", "-") != "-":
+            eart_val = kwargs['E621 Artist']
+            tag_str = self.format_tag(eart_val)
+            this_node_core_elements.append(f"artist:{tag_str}{aa_weight}")
 
-        # Add formatted tags to prompt elements
-        if kwargs["Format Tag"]:
-            kwargs.get("Character") != "-" and prompt_elements.append(
-                f"\({self.format_tag(kwargs['Character'])}{ca_weight}\),"
-            )
-            kwargs.get("E621 Character") != "-" and prompt_elements.append(
-                f"\({self.format_tag(kwargs['E621 Character'])}{ca_weight}\),"
-            )
-            kwargs.get("Artist") != "-" and prompt_elements.append(
-                f"artist:{self.format_tag(kwargs['Artist'])}{aa_weight},"
-            )
-            kwargs.get("E621 Artist") != "-" and prompt_elements.append(
-                f"artist:{self.format_tag(kwargs['E621 Artist'])}{aa_weight},"
-            )
+        if kwargs.get("Year", "-") != "-": this_node_core_elements.append(kwargs['Year'])
+
+        shots_map = {
+            "Shot Type": EasyNoobai.SHOT_TYPES, "Framing": EasyNoobai.FRAMING,
+            "Perspective": EasyNoobai.PERSPECTIVE, "Focus": EasyNoobai.FOCUS,
+        }
+        for key, D_MAP in shots_map.items():
+            val = kwargs.get(key, "-")
+            if val != "-" and D_MAP.get(val):
+                 this_node_core_elements.append(D_MAP.get(val))
+        
+        this_node_core_content_str = self._join_prompt_parts(*this_node_core_elements)
+
+        working_prompt_str = ""
+        deferred_suffix_from_parent = "" 
+
+        if EasyNoobai.CHAIN_INSERT_TOKEN in prefix_input_str:
+            parts = prefix_input_str.split(EasyNoobai.CHAIN_INSERT_TOKEN, 1)
+            prefix_head = parts[0].strip()
+            if len(parts) > 1:
+                deferred_suffix_from_parent = parts[1].strip()
+            
+            working_prompt_str = self._join_prompt_parts(prefix_head, this_node_core_content_str)
         else:
-            kwargs.get("Character") != "-" and prompt_elements.append(
-                f"{kwargs['Character']}{ca_weight},"
-            )
-            kwargs.get("E621 Character") != "-" and prompt_elements.append(
-                f"{kwargs['E621 Character']}{ca_weight},"
-            )
-            kwargs.get("Artist") != "-" and prompt_elements.append(
-                f"{self.format_tag(kwargs['Artist'])}{aa_weight},"
-            )
-            kwargs.get("E621 Artist") != "-" and prompt_elements.append(
-                f"{self.format_tag(kwargs['E621 Artist'])}{aa_weight},"
-            )
+            working_prompt_str = self._join_prompt_parts(prefix_input_str, this_node_core_content_str)
+        
+        elements_after_core = []
+        if add_insert_point_for_next_node:
+            elements_after_core.append(EasyNoobai.CHAIN_INSERT_TOKEN)
+        
+        this_node_main_prompt_text = kwargs.get("Prompt", "").strip()
+        if this_node_main_prompt_text:
+            elements_after_core.append(this_node_main_prompt_text)
 
-        kwargs["SFW"] and prompt_elements.append("(sfw:1.2),")
-        kwargs["Year"] != "-" and prompt_elements.append(f"{kwargs['Year']},")
+        if elements_after_core:
+            additional_str = self._join_prompt_parts(*elements_after_core)
+            working_prompt_str = self._join_prompt_parts(working_prompt_str, additional_str)
+        
+        prompt_after_own_modifiers = working_prompt_str
+        
+        sfw_positive_tag = ""
+        if kwargs.get("SFW", False):
+            sfw_positive_tag = "(sfw:1.2)"
 
-        shots = [
-            EasyNoobai.SHOT_TYPES.get(kwargs.get("Shot Type", "-")),
-            EasyNoobai.FRAMING.get(kwargs.get("Framing", "-")),
-            EasyNoobai.PERSPECTIVE.get(kwargs.get("Perspective", "-")),
-            EasyNoobai.FOCUS.get(kwargs.get("Focus", "-")),
-        ]
-        for shot in shots:
-            if shot:
-                prompt_elements.append(f"{shot},")
+        # Quality Boost and Cinematic
+        qb_cinematic_string = ""
+        if kwargs.get("Quality Boost (Beta)", False):
+            qb_elements = [self.QUAILTY_BOOST.strip().removesuffix(',')]
+            if kwargs.get("Cinematic (Beta)", False):
+                qb_elements.append(self.CINEMATIC.strip().removesuffix(','))
+            qb_cinematic_string = self._join_prompt_parts(*qb_elements)
 
-        kwargs.get("Prompt") and prompt_elements.append(kwargs["Prompt"] + ",")
-        kwargs.get("suffix") and prompt_elements.append(kwargs["suffix"])
-
-        # Construct negative elements
-
-        if kwargs["Prefix QB (Beta)"]:
-            kwargs["Quality Boost (Beta)"] and prompt_elements.insert(
-                0,
-                f"{self.QUAILTY_BOOST.strip()}{self.CINEMATIC.strip() if kwargs['Cinematic (Beta)'] else ''}",
-            )
+        if kwargs.get("Prefix QB (Beta)", False):
+            prompt_after_own_modifiers = self._join_prompt_parts(qb_cinematic_string, sfw_positive_tag, prompt_after_own_modifiers)
         else:
-            kwargs["Quality Boost (Beta)"] and prompt_elements.append(
-                f"{self.QUAILTY_BOOST.strip()}{self.CINEMATIC.strip() if kwargs['Cinematic (Beta)'] else ''}"
-            )
-
-        kwargs["SFW"] and negative_elements.append(self.CENSORSHIP.strip())
-
-        final_prompt = " ".join(prompt_elements).lower()
-
-        kwargs["Negative Prompt"] != "-" and negative_elements.append(
-            self.NEGATIVES[kwargs["Negative Prompt"]]
-        )
-
-        if kwargs["Character"] != "-" or kwargs["E621 Character"] != "-":
-            negative_elements.append(self.NEG_ADDITIONAL)
-
+            prompt_after_own_modifiers = self._join_prompt_parts(prompt_after_own_modifiers, qb_cinematic_string, sfw_positive_tag)
+        
+        final_prompt_assembly = self._join_prompt_parts(prompt_after_own_modifiers, deferred_suffix_from_parent, suffix_chain_input_str)
+        
+        final_prompt_str = final_prompt_assembly
         if kwargs.get("Mature Characters", False):
-            replacements = {
-                "girls": "women",
-                "girl": "woman",
-                "boys": "men",
-                "boy": "man",
-            }
-            for old, new in replacements.items():
-                final_prompt = final_prompt.replace(old, new)
+            replacements = { "girls": "women", "girl": "woman", "boys": "men", "boy": "man" }
+            for old, new_val in replacements.items():
+                final_prompt_str = re.sub(r'\b' + re.escape(old) + r'\b', new_val, final_prompt_str, flags=re.IGNORECASE)
+        
+        if kwargs.get("Break Format", False):
+            final_prompt_str = self.format_prompt(final_prompt_str)
 
-        clip = kwargs.get("Clip")
-        last_clip_layer = kwargs.get("Stop at Clip Layer")
-        latent = self.generate(resolution[0], resolution[1], kwargs["Batch Size"])[0]
-        model = self.load_checkpoint(kwargs["Model"])
-        checkpoint = model[0]
-        clip = model[1]
-        vae = model[2]
+        negative_elements = []
+        if kwargs.get("SFW", False):
+            negative_elements.append(self.CENSORSHIP.strip())
 
-        modified_clip = self.modify_clip(clip, last_clip_layer)[0]
-        final_negative = " ".join(negative_elements).strip()
+        neg_prompt_choice = kwargs.get("Negative Prompt", "-")
+        if neg_prompt_choice != "-":
+            negative_elements.append(self.NEGATIVES[neg_prompt_choice])
 
-        final_prompt = f"{prefix} {final_prompt} {suffix}"
+        if kwargs.get("Character", "-") != "-" or kwargs.get("E621 Character", "-") != "-":
+            negative_elements.append(self.NEG_ADDITIONAL)
+        
+        final_negative_str = self._join_prompt_parts(*negative_elements)
+        
+        if kwargs.get("Break Format", False):
+            final_negative_str = self.format_prompt(final_negative_str)
 
-        if kwargs["Break Format"]:
-            final_prompt = self.format_prompt(final_prompt)
-            final_negative = self.format_prompt(final_negative)
+        return (final_prompt_str if final_prompt_str else " ", 
+                final_negative_str if final_negative_str else " ")
 
-        return (
-            checkpoint,
-            vae,
-            modified_clip,
-            latent,
-            final_prompt,
-            final_negative,
-        )
-
-    @staticmethod
-    def parse_resolution(resolution: str) -> tuple:
-        dimensions = EasyNoobai.RESOLUTIONS[resolution].split("x")
-        return int(dimensions[0]), int(dimensions[1])
-
-    # add 'BREAK' keyword after every 70 characters making sure the last character is always a ","
     def format_prompt(self, prompt: str) -> str:
-        prompt = prompt.replace(",", "")
-        words = prompt.split()
+        prompt_no_commas = prompt.replace(",", "")
+        words = prompt_no_commas.split()
 
         formatted_parts = []
         current_part = []
         current_length = 0
 
         for word in words:
-            if current_length + len(word) > 70:
-                formatted_parts.append(" ".join(current_part) + ", BREAK")
+            if word == EasyNoobai.CHAIN_INSERT_TOKEN:
+                if current_part:
+                    formatted_parts.append(" ".join(current_part) + ("," if current_part else ""))
+                formatted_parts.append(word)
+                current_part = []
+                current_length = 0
+                continue
+
+
+            if current_length + len(word) + (1 if current_part else 0) > 70:
+                if current_part:
+                    last_elem_in_part = current_part[-1]
+                    ends_with_comma = last_elem_in_part.endswith(',')
+                    is_token = last_elem_in_part == EasyNoobai.CHAIN_INSERT_TOKEN
+                    
+                    part_str = " ".join(current_part)
+                    if not ends_with_comma and not is_token:
+                        part_str += ","
+                    formatted_parts.append(part_str)
+                
+                formatted_parts.append("BREAK")
                 current_part = [word]
                 current_length = len(word)
             else:
                 current_part.append(word)
-                current_length += len(word) + 1  # +1 for the space
+                current_length += len(word) + (1 if len(current_part) > 1 else 0)
 
         if current_part:
-            formatted_parts.append(" ".join(current_part))
+            part_str = " ".join(current_part)
+            if part_str != EasyNoobai.CHAIN_INSERT_TOKEN and not part_str.endswith(','):
+                pass 
+            formatted_parts.append(part_str)
+        
+        final_formatted_prompt = " ".join(formatted_parts)
+        final_formatted_prompt = re.sub(r'\s*BREAK\s*', ' BREAK ', final_formatted_prompt).strip()
+        final_formatted_prompt = re.sub(r'\s*,\s*', ', ', final_formatted_prompt)
+        final_formatted_prompt = re.sub(r',{2,}', ',', final_formatted_prompt)
+        final_formatted_prompt = re.sub(r',\s*BREAK', ', BREAK', final_formatted_prompt)
+        final_formatted_prompt = re.sub(r'BREAK\s*,', 'BREAK ', final_formatted_prompt)
 
-        return " ".join(formatted_parts)
+        return final_formatted_prompt
+
 
     def format_tag(self, tag: str) -> str:
         parts = tag.split("(")
@@ -1003,32 +1149,7 @@ class EasyNoobai:
                     )
                 else:
                     formatted_parts.append("(" + part.replace("_", " "))
-
         return "".join(formatted_parts)
-
-    # FROM COMFYUI CORE
-    def generate(self, width, height, batch_size=1) -> tuple:
-        latent = torch.zeros(
-            [batch_size, 4, height // 8, width // 8], device=self.device
-        )
-        return ({"samples": latent},)
-
-    # FROM COMFYUI CORE
-    def modify_clip(self, clip, stop_at_clip_layer) -> tuple:
-        clip = clip.clone()
-        clip.clip_layer(stop_at_clip_layer)
-        return (clip,)
-
-    # FROM COMFYUI CORE
-    def load_checkpoint(self, ckpt_name) -> tuple:
-        ckpt_path = folder_paths.get_full_path_or_raise("checkpoints", ckpt_name)
-        out = comfy.sd.load_checkpoint_guess_config(
-            ckpt_path,
-            output_vae=True,
-            output_clip=True,
-            embedding_directory=folder_paths.get_folder_paths("embeddings"),
-        )
-        return out[:3]
 
 
 class NoobaiCharacters:
@@ -1190,7 +1311,7 @@ class NoobaiCharacters:
         max_weight = 1.15
         min_weight = max(
             0, 2 * avg_weight - max_weight
-        )  # Ensure min_weight is non-negative
+        )
 
         step = (max_weight - min_weight) / (count - 1)
 
@@ -1801,7 +1922,7 @@ class NoobaiClothing:
                     ["-"] + EasyNoobai.CLOTHING["bottoms"],
                     {"default": "-", "tooltip": "Select a bottom clothing item."},
                 ),
-                "Inject Styles": (
+                "Inject Clothing": (
                     "BOOLEAN",
                     {"default": True, "tooltip": "Inject into prefix content."},
                 ),
@@ -1830,7 +1951,7 @@ class NoobaiClothing:
         outfit = kwargs.get("Outfits", "-")
         top = kwargs.get("Top", "-")
         bottoms = kwargs.get("Bottoms", "-")
-        inject_styles = kwargs.get("Inject Styles", True)
+        inject_styles = kwargs.get("Inject Clothing", True)
         format_tag = kwargs.get("Format Tag", False)
 
         # Filter valid components

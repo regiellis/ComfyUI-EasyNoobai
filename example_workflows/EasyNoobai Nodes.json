@@ -1,0 +1,1268 @@
+{
+  "id": "26866a03-8266-4219-a681-a53d059a04d0",
+  "revision": 0,
+  "last_node_id": 40,
+  "last_link_id": 93,
+  "nodes": [
+    {
+      "id": 9,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1980,
+        1010
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 77
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 84
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            9,
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CLIPTextEncode",
+        "widget_ue_connectable": {
+          "text": true
+        }
+      },
+      "widgets_values": [
+        "1girl, \nmasterpiece, best quality, amazing quality, very aesthetic, absurdres, newest, scenery, (volumetric lighting),"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 10,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1980,
+        1280
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 71
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 52
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            10,
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CLIPTextEncode",
+        "widget_ue_connectable": {
+          "text": true
+        }
+      },
+      "widgets_values": [
+        "lowres, (worst quality, bad quality:1.2), bad anatomy, sketch, jpeg artifacts, signature, watermark, old, oldest, censored, bar censor, (pregnant), chibi, loli, simple background,"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 11,
+      "type": "KSampler",
+      "pos": [
+        2420,
+        1030
+      ],
+      "size": [
+        350,
+        770
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 69
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 10
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 74
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 72
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": 73
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": 90
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "KSampler",
+        "widget_ue_connectable": {
+          "seed": true,
+          "steps": true,
+          "cfg": true,
+          "sampler_name": true,
+          "scheduler": true,
+          "denoise": true
+        }
+      },
+      "widgets_values": [
+        906629967045934,
+        "randomize",
+        30,
+        4,
+        "euler_ancestral",
+        "sgm_uniform",
+        1
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 12,
+      "type": "VAEDecode",
+      "pos": [
+        2420,
+        1850
+      ],
+      "size": [
+        350,
+        46
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 12
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 75
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "VAEDecode",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 14,
+      "type": "UpscaleModelLoader",
+      "pos": [
+        2810,
+        920
+      ],
+      "size": [
+        360,
+        60
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 1,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "slot_index": 0,
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "UpscaleModelLoader",
+        "widget_ue_connectable": {
+          "model_name": true
+        }
+      },
+      "widgets_values": [
+        "4x-UltraSharp.pth"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 17,
+      "type": "UltimateSDUpscale",
+      "pos": [
+        2810,
+        1030
+      ],
+      "size": [
+        370,
+        1110
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 14,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            26,
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_ultimatesdupscale",
+        "ver": "778a475dde8116a2066fe07f6c9ca15554e0b5be",
+        "Node name for S&R": "UltimateSDUpscale",
+        "widget_ue_connectable": {
+          "upscale_by": true,
+          "seed": true,
+          "steps": true,
+          "cfg": true,
+          "sampler_name": true,
+          "scheduler": true,
+          "denoise": true,
+          "mode_type": true,
+          "tile_width": true,
+          "tile_height": true,
+          "mask_blur": true,
+          "tile_padding": true,
+          "seam_fix_mode": true,
+          "seam_fix_denoise": true,
+          "seam_fix_width": true,
+          "seam_fix_mask_blur": true,
+          "seam_fix_padding": true,
+          "force_uniform_tiles": true,
+          "tiled_decode": true
+        }
+      },
+      "widgets_values": [
+        2,
+        243091854796281,
+        "randomize",
+        10,
+        5.5,
+        "dpmpp_2m",
+        "sgm_uniform",
+        0.2,
+        "Linear",
+        512,
+        512,
+        32,
+        128,
+        "None",
+        1,
+        64,
+        8,
+        16,
+        true,
+        false
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 19,
+      "type": "PreviewImage",
+      "pos": [
+        -670,
+        750
+      ],
+      "size": [
+        740,
+        1110
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 26
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "PreviewImage",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 20,
+      "type": "SaveImage",
+      "pos": [
+        2420,
+        1960
+      ],
+      "size": [
+        360,
+        370
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 27
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "SaveImage",
+        "widget_ue_connectable": {
+          "filename_prefix": true
+        }
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 23,
+      "type": "ShowText|pysssss",
+      "pos": [
+        -670,
+        2140
+      ],
+      "size": [
+        740,
+        150
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 80
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            52
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-custom-scripts",
+        "ver": "9f7b3215e6af317603056a9a1666bf6e83e28835",
+        "Node name for S&R": "ShowText|pysssss",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "bar censor, censor, censor mosaic, censored, filter abuse, heavily pixelated, instagram filter, mosaic censoring, over filter, over saturated, over sharpened, overbrightened, overdarkened, overexposed, overfiltered, oversaturated, ai-generated, worst quality, worst aesthetic, bad quality, normal quality, average quality, oldest, old, early, very displeasing, displeasing, adversarial noise, what, off-topic, text, artist name, signature, username, logo, watermark, copyright name, copyright symbol, low quality, lowres, jpeg artifacts, compression artifacts, blurry, artistic error, bad anatomy, bad hands, bad feet, disfigured, deformed, extra digits, fewer digits, missing fingers, censored, unfinished, bad proportions, bad perspective, monochrome, sketch, concept art, unclear, 2koma, 4koma, , letterboxed, speech bubble, cropped"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 29,
+      "type": "NoobaiHairstyles",
+      "pos": [
+        1470,
+        1300
+      ],
+      "size": [
+        410,
+        200
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 86
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            87
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "54ca08b137dfa8d62de55649b3af67af7dcf4d73",
+        "Node name for S&R": "NoobaiHairstyles",
+        "widget_ue_connectable": {
+          "Length and Volume": true,
+          "Haircuts": true,
+          "Hairstyles": true,
+          "Hair Colors": true,
+          "Inject Styles": true,
+          "Format Tag": true
+        }
+      },
+      "widgets_values": [
+        "-",
+        "short pixie cut",
+        "-",
+        "gradient blonde hair",
+        true,
+        false
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 31,
+      "type": "NoobaiClothing",
+      "pos": [
+        1470,
+        1550
+      ],
+      "size": [
+        410,
+        230
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 87
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            88
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "54ca08b137dfa8d62de55649b3af67af7dcf4d73",
+        "Node name for S&R": "NoobaiClothing",
+        "widget_ue_connectable": {
+          "Outfits": true,
+          "Top": true,
+          "Bottoms": true,
+          "Inject Styles": true,
+          "Format Tag": true
+        }
+      },
+      "widgets_values": [
+        "korean_clothes",
+        "-",
+        "-",
+        true,
+        false
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 32,
+      "type": "EasyNoobaiMasterModel",
+      "pos": [
+        100,
+        760
+      ],
+      "size": [
+        410,
+        346
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            69
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            75
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            71,
+            77
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            74
+          ]
+        },
+        {
+          "name": "SEED",
+          "type": "INT",
+          "links": [
+            72
+          ]
+        },
+        {
+          "name": "STEPS",
+          "type": "INT",
+          "links": [
+            73
+          ]
+        },
+        {
+          "name": "CFG SCALE",
+          "type": "FLOAT",
+          "links": [
+            90
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "2a98909960f625c6f155080ea513cca5ee292f27",
+        "Node name for S&R": "EasyNoobaiMasterModel",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "Illustrious/ntrMIXIllustriousXL_xiii.safetensors",
+        -2,
+        "1:2 - (1024x2048)",
+        1,
+        119057,
+        "randomize",
+        30,
+        4.5
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 33,
+      "type": "EasyNoobai",
+      "pos": [
+        540,
+        950
+      ],
+      "size": [
+        550,
+        636
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            91
+          ]
+        },
+        {
+          "name": "NEGATIVE",
+          "type": "STRING",
+          "links": [
+            80
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "2a98909960f625c6f155080ea513cca5ee292f27",
+        "Node name for S&R": "EasyNoobai",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "1 girl solo",
+        "-",
+        false,
+        "-",
+        "Straight-On",
+        "Full Body",
+        "-",
+        "-",
+        "",
+        "Extra",
+        true,
+        false,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 34,
+      "type": "NoobaiPoses",
+      "pos": [
+        1470,
+        1000
+      ],
+      "size": [
+        410,
+        240
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 92
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "PROMPT",
+          "type": "STRING",
+          "links": [
+            86
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "2a98909960f625c6f155080ea513cca5ee292f27",
+        "Node name for S&R": "NoobaiPoses",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        false,
+        1,
+        "-",
+        false,
+        0,
+        false
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 35,
+      "type": "ShowText|pysssss",
+      "pos": [
+        -670,
+        1910
+      ],
+      "size": [
+        740,
+        180
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 88
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            84
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-custom-scripts",
+        "ver": "aac13aa7ce35b07d43633c3bbe654a38c00d74f5",
+        "Node name for S&R": "ShowText|pysssss",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "1 girl solo, (straight-on:1.15),, full body, masterpiece, best quality, good quality, very aesthetic, absurdres, newest, highres, (sfw:1.2) gradient blonde hair short pixie cut, korean_clothes,"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 39,
+      "type": "NoobaiCharacters",
+      "pos": [
+        1140,
+        1000
+      ],
+      "size": [
+        288.04296875,
+        222
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 91
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CHARACTER PROMPT",
+          "type": "STRING",
+          "links": [
+            92,
+            93
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "2a98909960f625c6f155080ea513cca5ee292f27",
+        "widget_ue_connectable": {},
+        "Node name for S&R": "NoobaiCharacters"
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        false,
+        true
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 40,
+      "type": "NoobaiArtists",
+      "pos": [
+        1140,
+        1280
+      ],
+      "size": [
+        290,
+        230
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "link": 93
+        },
+        {
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "ARTIST PROMPT",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-noobai",
+        "ver": "2a98909960f625c6f155080ea513cca5ee292f27",
+        "widget_ue_connectable": {},
+        "Node name for S&R": "NoobaiArtists"
+      },
+      "widgets_values": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        false,
+        true
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      9,
+      9,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      10,
+      0,
+      11,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      17,
+      14,
+      0,
+      17,
+      5,
+      "UPSCALE_MODEL"
+    ],
+    [
+      18,
+      12,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      9,
+      0,
+      17,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      21,
+      10,
+      0,
+      17,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      26,
+      17,
+      0,
+      19,
+      0,
+      "IMAGE"
+    ],
+    [
+      27,
+      17,
+      0,
+      20,
+      0,
+      "IMAGE"
+    ],
+    [
+      52,
+      23,
+      0,
+      10,
+      1,
+      "STRING"
+    ],
+    [
+      69,
+      32,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      71,
+      32,
+      2,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      72,
+      32,
+      4,
+      11,
+      4,
+      "INT"
+    ],
+    [
+      73,
+      32,
+      5,
+      11,
+      5,
+      "INT"
+    ],
+    [
+      74,
+      32,
+      3,
+      11,
+      3,
+      "LATENT"
+    ],
+    [
+      75,
+      32,
+      1,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      77,
+      32,
+      2,
+      9,
+      0,
+      "CLIP"
+    ],
+    [
+      80,
+      33,
+      1,
+      23,
+      0,
+      "STRING"
+    ],
+    [
+      84,
+      35,
+      0,
+      9,
+      1,
+      "STRING"
+    ],
+    [
+      86,
+      34,
+      0,
+      29,
+      0,
+      "STRING"
+    ],
+    [
+      87,
+      29,
+      0,
+      31,
+      0,
+      "STRING"
+    ],
+    [
+      88,
+      31,
+      0,
+      35,
+      0,
+      "STRING"
+    ],
+    [
+      90,
+      32,
+      6,
+      11,
+      6,
+      "FLOAT"
+    ],
+    [
+      91,
+      33,
+      0,
+      39,
+      0,
+      "STRING"
+    ],
+    [
+      92,
+      39,
+      0,
+      34,
+      0,
+      "STRING"
+    ],
+    [
+      93,
+      39,
+      0,
+      40,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6830134553650709,
+      "offset": [
+        572.5848767173409,
+        -507.20332970473225
+      ]
+    },
+    "frontendVersion": "1.19.8",
+    "ue_links": [],
+    "links_added_by_ue": [],
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
